@@ -19,6 +19,8 @@ namespace AutoWay.Data
 
 		public DbSet<Reservation> Reservations { get; set; } = default;
 
+		public DbSet<Avis> Avis { get; set; } = default!;
+
         /*
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
