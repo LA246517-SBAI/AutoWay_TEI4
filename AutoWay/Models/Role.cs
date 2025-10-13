@@ -6,7 +6,7 @@ namespace AutoWay.Models
 {
     public class RoleUtilisateur
     {
-        public int Role{ get; set; }
+        public int RoleUtilisateurID{ get; set; }
         public string RoleNom { get; set; }
     }
 }

@@ -1,3 +1,4 @@
+using AutoWay.AutoWay.Models;
 using AutoWay.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -12,6 +13,11 @@ namespace AutoWay.Data
         }
 
         public DbSet<Voiture> Voiture { get; set; } = default!;
+        public DbSet<Utilisateur> Utilisateur { get; set; } = default!;
+
+		public DbSet<RoleUtilisateur> Role {  get; set; } = default!;
+
+		public DbSet<Reservation> Reservations { get; set; } = default;
 
         /*
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
