@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoWay.Migrations
 {
     [DbContext(typeof(AutoWayContext))]
-    [Migration("20251013153556_sync_model")]
-    partial class sync_model
+    [Migration("20251014063602_commentaire")]
+    partial class commentaire
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,6 +48,31 @@ namespace AutoWay.Migrations
                     b.HasKey("ReservationID");
 
                     b.ToTable("Reservations");
+                });
+
+            modelBuilder.Entity("AutoWay.Models.Avis", b =>
+                {
+                    b.Property<int>("AvisID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AvisID"));
+
+                    b.Property<DateTime>("AvisDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("AvisMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("AvisScore")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UtilisateurID")
+                        .HasColumnType("int");
+
+                    b.HasKey("AvisID");
+
+                    b.ToTable("Avis");
                 });
 
             modelBuilder.Entity("AutoWay.Models.RoleUtilisateur", b =>
