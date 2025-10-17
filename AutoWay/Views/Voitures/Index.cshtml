@@ -1,0 +1,65 @@
+﻿@model IEnumerable<AutoWay.Models.Voiture>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Marque)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Modele)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrixJournalier)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PlaqueImm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Actif)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Utilisateur)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Marque)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Modele)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrixJournalier)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PlaqueImm)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Actif)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Utilisateur.UtilisateurID)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.VoitureID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.VoitureID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.VoitureID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -12,6 +12,12 @@ namespace AutoWay.Models
         public double PrixJournalier { get; set; }
         public string PlaqueImm { get; set; }
         public bool? Actif { get; set; }
+
+        // Clé étrangère vers Utilisateur
         public int UtilisateurID { get; set; }
+
+        // Propriété de navigation
+        [ForeignKey("UtilisateurID")]
+        public Utilisateur Utilisateur { get; set; }
     }
 }
