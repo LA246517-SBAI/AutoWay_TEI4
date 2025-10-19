@@ -1,0 +1,53 @@
+﻿@model IEnumerable<AutoWay.Models.Avis>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AvisMessage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AvisScore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AvisDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UtilisateurID)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AvisMessage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AvisScore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AvisDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UtilisateurID)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.AvisID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.AvisID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.AvisID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
