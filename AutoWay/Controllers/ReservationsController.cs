@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using AutoWay.AutoWay.Models;
 using AutoWay.Data;
+using AutoWay.AutoWay.Models;
 
 namespace AutoWay.Controllers
 {
-    public class ReservationsController : Controller
+    [ApiController]
+    [Route("[controller]")]
+    public class ReservationsController : ControllerBase
     {
         private readonly AutoWayContext _context;
 
@@ -20,133 +17,82 @@ namespace AutoWay.Controllers
         }
 
         // GET: Reservations
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Reservation>>> GetReservations()
         {
-            return View(await _context.Reservations.ToListAsync());
+            var reservations = await _context.Reservations
+                .Include(r => r.Utilisateur)
+                .ToListAsync();
+            return Ok(reservations);
         }
 
-        // GET: Reservations/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: Reservations/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Reservation>> GetReservation(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var reservation = await _context.Reservations
-                .FirstOrDefaultAsync(m => m.ReservationID == id);
+                .Include(r => r.Utilisateur)
+                .FirstOrDefaultAsync(r => r.ReservationID == id);
+
             if (reservation == null)
-            {
-                return NotFound();
-            }
+                return NotFound(new { message = "Réservation introuvable." });
 
-            return View(reservation);
+            return Ok(reservation);
         }
 
-        // GET: Reservations/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Reservations/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Reservations
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ReservationID,DateDebut,DateFin,PrixFinal,UtilisateurID")] Reservation reservation)
+        public async Task<ActionResult<Reservation>> CreateReservation([FromBody] Reservation reservation)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(reservation);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(reservation);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            _context.Reservations.Add(reservation);
+            await _context.SaveChangesAsync();
+
+            // Retourne un code 201 (Created) avec l'URL de la nouvelle ressource
+            return CreatedAtAction(nameof(GetReservation), new { id = reservation.ReservationID }, reservation);
         }
 
-        // GET: Reservations/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var reservation = await _context.Reservations.FindAsync(id);
-            if (reservation == null)
-            {
-                return NotFound();
-            }
-            return View(reservation);
-        }
-
-        // POST: Reservations/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ReservationID,DateDebut,DateFin,PrixFinal,UtilisateurID")] Reservation reservation)
+        // PUT: Reservations/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateReservation(int id, [FromBody] Reservation reservation)
         {
             if (id != reservation.ReservationID)
+                return BadRequest(new { message = "L'ID ne correspond pas." });
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            _context.Entry(reservation).State = EntityState.Modified;
+
+            try
             {
-                return NotFound();
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ReservationExists(id))
+                    return NotFound(new { message = "Réservation introuvable." });
+                else
+                    throw;
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(reservation);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ReservationExists(reservation.ReservationID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(reservation);
+            return NoContent(); // 204
         }
 
-        // GET: Reservations/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var reservation = await _context.Reservations
-                .FirstOrDefaultAsync(m => m.ReservationID == id);
-            if (reservation == null)
-            {
-                return NotFound();
-            }
-
-            return View(reservation);
-        }
-
-        // POST: Reservations/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        // DELETE: Reservations/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteReservation(int id)
         {
             var reservation = await _context.Reservations.FindAsync(id);
-            if (reservation != null)
-            {
-                _context.Reservations.Remove(reservation);
-            }
+            if (reservation == null)
+                return NotFound(new { message = "Réservation introuvable." });
 
+            _context.Reservations.Remove(reservation);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return NoContent(); // 204
         }
 
         private bool ReservationExists(int id)
