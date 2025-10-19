@@ -1,0 +1,49 @@
+﻿@model AutoWay.Models.Avis
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Avis</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="AvisID" />
+            <div class="form-group">
+                <label asp-for="AvisMessage" class="control-label"></label>
+                <input asp-for="AvisMessage" class="form-control" />
+                <span asp-validation-for="AvisMessage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AvisScore" class="control-label"></label>
+                <input asp-for="AvisScore" class="form-control" />
+                <span asp-validation-for="AvisScore" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AvisDate" class="control-label"></label>
+                <input asp-for="AvisDate" class="form-control" />
+                <span asp-validation-for="AvisDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UtilisateurID" class="control-label"></label>
+                <input asp-for="UtilisateurID" class="form-control" />
+                <span asp-validation-for="UtilisateurID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
