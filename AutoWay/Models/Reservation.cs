@@ -14,5 +14,9 @@ namespace AutoWay.AutoWay.Models
 
         [ForeignKey("UtilisateurID")]
         public Utilisateur Utilisateur { get; set; }
+
+        public int VoitureID { get; set; }
+        [ForeignKey("VoitureID")]
+        public Voiture Voiture { get; set; }
     }
 }
