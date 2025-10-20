@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoWay.Migrations
 {
     [DbContext(typeof(AutoWayContext))]
-    [Migration("20251020100927_ajout de la relation entre reservation et voiture")]
-    partial class ajoutdelarelationentrereservationetvoiture
+    [Migration("20251020152055_InitDb")]
+    partial class InitDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -82,19 +82,24 @@ namespace AutoWay.Migrations
                     b.ToTable("Avis");
                 });
 
-            modelBuilder.Entity("AutoWay.Models.RoleUtilisateur", b =>
+            modelBuilder.Entity("AutoWay.Models.Role", b =>
                 {
-                    b.Property<int>("RoleUtilisateurID")
+                    b.Property<int>("RoleID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleUtilisateurID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleID"));
 
                     b.Property<string>("RoleNom")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("RoleUtilisateurID");
+                    b.Property<int?>("UtilisateurID")
+                        .HasColumnType("int");
+
+                    b.HasKey("RoleID");
+
+                    b.HasIndex("UtilisateurID");
 
                     b.ToTable("Role");
                 });
@@ -110,9 +115,8 @@ namespace AutoWay.Migrations
                     b.Property<bool>("Actif")
                         .HasColumnType("bit");
 
-                    b.Property<string>("DateNaissance")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("DateNaissance")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -190,6 +194,13 @@ namespace AutoWay.Migrations
                     b.Navigation("Voiture");
                 });
 
+            modelBuilder.Entity("AutoWay.Models.Role", b =>
+                {
+                    b.HasOne("AutoWay.Models.Utilisateur", null)
+                        .WithMany("Roles")
+                        .HasForeignKey("UtilisateurID");
+                });
+
             modelBuilder.Entity("AutoWay.Models.Voiture", b =>
                 {
                     b.HasOne("AutoWay.Models.Utilisateur", "Utilisateur")
@@ -204,6 +215,8 @@ namespace AutoWay.Migrations
             modelBuilder.Entity("AutoWay.Models.Utilisateur", b =>
                 {
                     b.Navigation("Reservations");
+
+                    b.Navigation("Roles");
 
                     b.Navigation("Voitures");
                 });

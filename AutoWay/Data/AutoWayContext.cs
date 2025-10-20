@@ -15,7 +15,7 @@ namespace AutoWay.Data
         public DbSet<Voiture> Voiture { get; set; } = default!;
         public DbSet<Utilisateur> Utilisateur { get; set; } = default!;
 
-		public DbSet<RoleUtilisateur> Role {  get; set; } = default!;
+		public DbSet<Role> Role {  get; set; } = default!;
 
 		public DbSet<Reservation> Reservations { get; set; } = default;
 

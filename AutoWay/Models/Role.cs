@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AutoWay.Models
 {
-    public class RoleUtilisateur
+    public class Role
     {
-        public int RoleUtilisateurID{ get; set; }
+        public int RoleID{ get; set; }
         public string RoleNom { get; set; }
     }
 }

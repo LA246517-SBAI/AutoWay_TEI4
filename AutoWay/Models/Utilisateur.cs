@@ -17,5 +17,7 @@ namespace AutoWay.Models
 
         public ICollection<Reservation> Reservations { get; set; }
 
+        public ICollection<Role> Roles { get; set; }
+
     }
 }
