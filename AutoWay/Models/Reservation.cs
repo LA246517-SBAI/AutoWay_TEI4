@@ -18,5 +18,8 @@ namespace AutoWay.AutoWay.Models
         public int VoitureID { get; set; }
         [ForeignKey("VoitureID")]
         public Voiture Voiture { get; set; }
+
+        [ForeignKey("AvisID")]
+        public Avis Avis { get; set; }
     }
 }
