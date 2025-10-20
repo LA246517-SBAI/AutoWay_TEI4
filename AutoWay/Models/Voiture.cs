@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using AutoWay.AutoWay.Models;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AutoWay.Models
@@ -19,5 +20,7 @@ namespace AutoWay.Models
         // Propriété de navigation
         [ForeignKey("UtilisateurID")]
         public Utilisateur Utilisateur { get; set; }
+
+        public ICollection<Reservation> Reservations { get; set; }
     }
 }
