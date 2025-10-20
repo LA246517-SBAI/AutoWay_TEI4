@@ -1,6 +1,0 @@
-@AutoWay_HostAddress = http://localhost:5140
-
-GET {{AutoWay_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

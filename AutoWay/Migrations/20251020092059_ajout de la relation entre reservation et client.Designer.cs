@@ -4,6 +4,7 @@ using AutoWay.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoWay.Migrations
 {
     [DbContext(typeof(AutoWayContext))]
-    partial class AutoWayContextModelSnapshot : ModelSnapshot
+    [Migration("20251020092059_ajout de la relation entre reservation et client")]
+    partial class ajoutdelarelationentrereservationetclient
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -166,11 +169,7 @@ namespace AutoWay.Migrations
             modelBuilder.Entity("AutoWay.AutoWay.Models.Reservation", b =>
                 {
                     b.HasOne("AutoWay.Models.Utilisateur", "Utilisateur")
-<<<<<<< HEAD
-                        .WithMany("Reservations")
-=======
                         .WithMany()
->>>>>>> develop
                         .HasForeignKey("UtilisateurID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -191,11 +190,6 @@ namespace AutoWay.Migrations
 
             modelBuilder.Entity("AutoWay.Models.Utilisateur", b =>
                 {
-<<<<<<< HEAD
-                    b.Navigation("Reservations");
-
-=======
->>>>>>> develop
                     b.Navigation("Voitures");
                 });
 #pragma warning restore 612, 618

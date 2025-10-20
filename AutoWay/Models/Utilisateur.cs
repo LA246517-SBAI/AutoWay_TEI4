@@ -15,7 +15,10 @@ namespace AutoWay.Models
 
         public ICollection<Voiture> Voitures { get; set; }
 
+<<<<<<< HEAD
 
         public ICollection<Reservation> Reservations { get; set; }
+=======
+>>>>>>> develop
     }
 }

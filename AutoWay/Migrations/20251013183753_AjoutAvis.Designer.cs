@@ -4,6 +4,7 @@ using AutoWay.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoWay.Migrations
 {
     [DbContext(typeof(AutoWayContext))]
-    partial class AutoWayContextModelSnapshot : ModelSnapshot
+    [Migration("20251013183753_AjoutAvis")]
+    partial class AjoutAvis
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,8 +46,6 @@ namespace AutoWay.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ReservationID");
-
-                    b.HasIndex("UtilisateurID");
 
                     b.ToTable("Reservations");
                 });
@@ -158,45 +159,7 @@ namespace AutoWay.Migrations
 
                     b.HasKey("VoitureID");
 
-                    b.HasIndex("UtilisateurID");
-
                     b.ToTable("Voiture");
-                });
-
-            modelBuilder.Entity("AutoWay.AutoWay.Models.Reservation", b =>
-                {
-                    b.HasOne("AutoWay.Models.Utilisateur", "Utilisateur")
-<<<<<<< HEAD
-                        .WithMany("Reservations")
-=======
-                        .WithMany()
->>>>>>> develop
-                        .HasForeignKey("UtilisateurID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Utilisateur");
-                });
-
-            modelBuilder.Entity("AutoWay.Models.Voiture", b =>
-                {
-                    b.HasOne("AutoWay.Models.Utilisateur", "Utilisateur")
-                        .WithMany("Voitures")
-                        .HasForeignKey("UtilisateurID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Utilisateur");
-                });
-
-            modelBuilder.Entity("AutoWay.Models.Utilisateur", b =>
-                {
-<<<<<<< HEAD
-                    b.Navigation("Reservations");
-
-=======
->>>>>>> develop
-                    b.Navigation("Voitures");
                 });
 #pragma warning restore 612, 618
         }

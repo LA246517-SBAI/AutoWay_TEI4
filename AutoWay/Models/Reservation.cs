@@ -1,4 +1,7 @@
-﻿namespace AutoWay.AutoWay.Models
+﻿using AutoWay.Models;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace AutoWay.AutoWay.Models
 {
     public class Reservation
     {
@@ -8,5 +11,8 @@
         public double PrixFinal { get; set; }
 
         public int UtilisateurID { get; set; }
+
+        [ForeignKey("UtilisateurID")]
+        public Utilisateur Utilisateur { get; set; }
     }
 }
