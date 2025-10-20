@@ -1,3 +1,4 @@
+using AutoWay.AutoWay.Models;
 using System;
 
 namespace AutoWay.Models
@@ -11,5 +12,10 @@ namespace AutoWay.Models
         public string Email { get; set; }
         public string Password { get; set; }
         public bool Actif { get; set; }
+
+        public ICollection<Voiture> Voitures { get; set; }
+
+
+        public ICollection<Reservation> Reservations { get; set; }
     }
 }
