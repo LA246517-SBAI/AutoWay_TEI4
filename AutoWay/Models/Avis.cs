@@ -1,4 +1,7 @@
-﻿namespace AutoWay.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using AutoWay.AutoWay.Models;
+
+namespace AutoWay.Models
 {
     public class Avis
     {
@@ -20,11 +23,12 @@
         /**
          * La date de publication de l'avis
          */
-        public DateTime AvisDate { get; set; }   
+        public DateTime AvisDate { get; set; }
 
         /**
-         * A quel utilisateur appartient l'avis
+         * A quelle réservation cet avis est-il lié
          */
-        public int UtilisateurID { get; set; }
+        [ForeignKey("ReservationID")]
+        public Reservation Reservation { get; set; }
     }
 }
