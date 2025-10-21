@@ -8,7 +8,7 @@ namespace AutoWay.Models
         public int UtilisateurID { get; set; }
         public string Nom { get; set; }
         public string Prenom { get; set; }
-        public DateTime DateNaissance { get; set; }
+        public DateOnly DateNaissance { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         public bool Actif { get; set; }

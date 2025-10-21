@@ -35,7 +35,7 @@ namespace AutoWay.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nom = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Prenom = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateNaissance = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateNaissance = table.Column<DateOnly>(type: "date", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Actif = table.Column<bool>(type: "bit", nullable: false)

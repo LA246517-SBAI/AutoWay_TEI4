@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoWay.Migrations
 {
     [DbContext(typeof(AutoWayContext))]
-    [Migration("20251020152055_InitDb")]
+    [Migration("20251021072922_InitDb")]
     partial class InitDb
     {
         /// <inheritdoc />
@@ -115,8 +115,8 @@ namespace AutoWay.Migrations
                     b.Property<bool>("Actif")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("DateNaissance")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("DateNaissance")
+                        .HasColumnType("date");
 
                     b.Property<string>("Email")
                         .IsRequired()

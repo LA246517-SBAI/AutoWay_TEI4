@@ -112,8 +112,8 @@ namespace AutoWay.Migrations
                     b.Property<bool>("Actif")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("DateNaissance")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("DateNaissance")
+                        .HasColumnType("date");
 
                     b.Property<string>("Email")
                         .IsRequired()
