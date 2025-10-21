@@ -12,22 +12,6 @@ namespace AutoWay.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Avis",
-                columns: table => new
-                {
-                    AvisID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    AvisMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AvisScore = table.Column<int>(type: "int", nullable: false),
-                    AvisDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UtilisateurID = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Avis", x => x.AvisID);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Utilisateur",
                 columns: table => new
                 {
@@ -89,6 +73,22 @@ namespace AutoWay.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Avis",
+                columns: table => new
+                {
+                    AvisID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AvisMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AvisScore = table.Column<int>(type: "int", nullable: false),
+                    AvisDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ReservationID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Avis", x => x.AvisID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Reservations",
                 columns: table => new
                 {
@@ -98,11 +98,18 @@ namespace AutoWay.Migrations
                     DateFin = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PrixFinal = table.Column<double>(type: "float", nullable: false),
                     UtilisateurID = table.Column<int>(type: "int", nullable: false),
-                    VoitureID = table.Column<int>(type: "int", nullable: false)
+                    VoitureID = table.Column<int>(type: "int", nullable: false),
+                    AvisID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reservations", x => x.ReservationID);
+                    table.ForeignKey(
+                        name: "FK_Reservations_Avis_AvisID",
+                        column: x => x.AvisID,
+                        principalTable: "Avis",
+                        principalColumn: "AvisID",
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Reservations_Utilisateur_UtilisateurID",
                         column: x => x.UtilisateurID,
@@ -116,6 +123,17 @@ namespace AutoWay.Migrations
                         principalColumn: "VoitureID",
                         onDelete: ReferentialAction.NoAction);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Avis_ReservationID",
+                table: "Avis",
+                column: "ReservationID",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_AvisID",
+                table: "Reservations",
+                column: "AvisID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservations_UtilisateurID",
@@ -136,19 +154,31 @@ namespace AutoWay.Migrations
                 name: "IX_Voiture_UtilisateurID",
                 table: "Voiture",
                 column: "UtilisateurID");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Avis_Reservations_ReservationID",
+                table: "Avis",
+                column: "ReservationID",
+                principalTable: "Reservations",
+                principalColumn: "ReservationID",
+                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Avis_Reservations_ReservationID",
+                table: "Avis");
+
             migrationBuilder.DropTable(
-                name: "Avis");
+                name: "Role");
 
             migrationBuilder.DropTable(
                 name: "Reservations");
 
             migrationBuilder.DropTable(
-                name: "Role");
+                name: "Avis");
 
             migrationBuilder.DropTable(
                 name: "Voiture");

@@ -30,6 +30,9 @@ namespace AutoWay.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservationID"));
 
+                    b.Property<int>("AvisID")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("DateDebut")
                         .HasColumnType("datetime2");
 
@@ -46,6 +49,8 @@ namespace AutoWay.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ReservationID");
+
+                    b.HasIndex("AvisID");
 
                     b.HasIndex("UtilisateurID");
 
@@ -71,10 +76,13 @@ namespace AutoWay.Migrations
                     b.Property<int>("AvisScore")
                         .HasColumnType("int");
 
-                    b.Property<int>("UtilisateurID")
+                    b.Property<int>("ReservationID")
                         .HasColumnType("int");
 
                     b.HasKey("AvisID");
+
+                    b.HasIndex("ReservationID")
+                        .IsUnique();
 
                     b.ToTable("Avis");
                 });
@@ -174,6 +182,12 @@ namespace AutoWay.Migrations
 
             modelBuilder.Entity("AutoWay.AutoWay.Models.Reservation", b =>
                 {
+                    b.HasOne("AutoWay.Models.Avis", "Avis")
+                        .WithMany()
+                        .HasForeignKey("AvisID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("AutoWay.Models.Utilisateur", "Utilisateur")
                         .WithMany("Reservations")
                         .HasForeignKey("UtilisateurID")
@@ -186,9 +200,22 @@ namespace AutoWay.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Avis");
+
                     b.Navigation("Utilisateur");
 
                     b.Navigation("Voiture");
+                });
+
+            modelBuilder.Entity("AutoWay.Models.Avis", b =>
+                {
+                    b.HasOne("AutoWay.AutoWay.Models.Reservation", "Reservation")
+                        .WithOne()
+                        .HasForeignKey("AutoWay.Models.Avis", "ReservationID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Reservation");
                 });
 
             modelBuilder.Entity("AutoWay.Models.Role", b =>
