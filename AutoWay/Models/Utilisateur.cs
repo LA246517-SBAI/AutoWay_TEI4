@@ -1,5 +1,6 @@
 using AutoWay.AutoWay.Models;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace AutoWay.Models
@@ -21,6 +22,7 @@ namespace AutoWay.Models
         [JsonIgnore] // idem pour les réservations
         public List<Reservation>? Reservations { get; set; }
 
+        [NotMapped]
         public string[] Roles { get; set; }
 
     }

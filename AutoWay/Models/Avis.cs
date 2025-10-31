@@ -10,6 +10,7 @@ namespace AutoWay.Models
         public string? Message { get; set; }         // Message optionnel de l'avis
         public int Score { get; set; }               // Score entre 1 et 5
         public DateOnly DatePublication { get; set; } // Date de publication
+        public DateOnly? DateModification { get; set; } // Date de modification
 
         // Clé étrangère explicite
         public int ReservationID { get; set; }
