@@ -1,4 +1,5 @@
 ﻿using AutoWay.Models;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -8,77 +9,79 @@ namespace AutoWay.Services
 {
     public class AuthorizationService
     {
-        // Il y a une clée privée dans le fichier "PrivateKeyTest.ini" mais il faut implémenter la lecture de ce fichier
-        private string privateKey = "b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW\r\nQyNTUxOQAAACBAAHuj4EY5BCrJoIbne/CYhXWH4YWKYa/qszDMqa/v/QAAAJhsq4IObKuC\r\nDgAAAAtzc2gtZWQyNTUxOQAAACBAAHuj4EY5BCrJoIbne/CYhXWH4YWKYa/qszDMqa/v/Q\r\nAAAEBspyNsIv6CezOEUbcDXN3W6Wp6OcukwhnFfoTXNyXHA0AAe6PgRjkEKsmghud78JiF\r\ndYfhhYphr+qzMMypr+/9AAAADmJickBiYnItdWJ1bnR1AQIDBAUGBw==";
+        private readonly string _key;
+        private readonly string _issuer;
+        private readonly string _audience;
+
+        public AuthorizationService(IConfiguration config)
+        {
+            _key = config["Jwt:Key"];
+            _issuer = config["Jwt:Issuer"];
+            _audience = config["Jwt:Audience"];
+        }
 
         public string CreateToken(Utilisateur user)
         {
             var handler = new JwtSecurityTokenHandler();
+            var keyBytes = Encoding.UTF8.GetBytes(_key);
 
-            var privateKeyUTF8 = Encoding.UTF8.GetBytes(privateKey);
+            var credentials = new SigningCredentials(
+                new SymmetricSecurityKey(keyBytes),
+                SecurityAlgorithms.HmacSha256);
 
-            var credentials = new SigningCredentials(new SymmetricSecurityKey(privateKeyUTF8),
-                                                      SecurityAlgorithms.HmacSha256);
-
-            var tokenDescription = new SecurityTokenDescriptor
+            var tokenDescriptor = new SecurityTokenDescriptor
             {
-                SigningCredentials = credentials,
-                Expires = DateTime.UtcNow.AddMinutes(5),
-                Subject = GenerateClaims(user)
+                Subject = GenerateClaims(user),
+                Expires = DateTime.UtcNow.AddMinutes(30),
+                Issuer = _issuer,
+                Audience = _audience,
+                SigningCredentials = credentials
             };
 
-            var token = handler.CreateToken(tokenDescription);
-
+            var token = handler.CreateToken(tokenDescriptor);
             return handler.WriteToken(token);
         }
 
         private ClaimsIdentity GenerateClaims(Utilisateur user)
         {
-            var Claims = new ClaimsIdentity();
+            var claims = new ClaimsIdentity();
+            claims.AddClaim(new Claim("id", user.UtilisateurID.ToString()));
+            claims.AddClaim(new Claim(ClaimTypes.Name, user.Nom));
+            claims.AddClaim(new Claim(ClaimTypes.Email, user.Email));
 
-            Claims.AddClaim(new Claim(ClaimTypes.Name, user.Nom));
-            Claims.AddClaim(new Claim(ClaimTypes.Email, user.Email));
-            // Je ne sais pas s'il faut ajouter le username si l'utilisateur n'est pas défini par un username mais plutot par une adresse email (avec nom/prenom)
-            //Claims.AddClaim(new Claim("username", user.Prenom)); 
-            Claims.AddClaim(new Claim("id", user.UtilisateurID.ToString()));
-
-            // Ajout des rôles s’ils existent
             if (user.Roles != null)
             {
                 foreach (var role in user.Roles)
                 {
-                    Claims.AddClaim(new Claim(ClaimTypes.Role, role));
+                    claims.AddClaim(new Claim(ClaimTypes.Role, role));
                 }
             }
 
-            return Claims;
+            return claims;
         }
 
-        public bool IsTokenValid(string token, string role)
+        public bool IsTokenValid(string token, string role = null)
         {
             token = token.Replace("Bearer", "").Trim();
             var handler = new JwtSecurityTokenHandler();
-            var param = new TokenValidationParameters();
-            param.ValidateIssuer = false;
-            param.ValidateAudience = false;
-            param.ValidateLifetime = true;
-            param.IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(privateKey));
 
-            SecurityToken securityToken;
+            var parameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = _issuer,
+                ValidAudience = _audience,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_key))
+            };
+
             try
             {
-                var claims = handler.ValidateToken(token, param, out securityToken);
-
-                if (role != null)
-                {
-                    return claims.IsInRole(role);
-                }
-                else
-                {
-                    return true;
-                }
+                var principal = handler.ValidateToken(token, parameters, out _);
+                return role == null || principal.IsInRole(role);
             }
-            catch (Exception e)
+            catch
             {
                 return false;
             }
