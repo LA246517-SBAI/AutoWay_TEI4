@@ -30,14 +30,11 @@ namespace AutoWay.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservationID"));
 
-                    b.Property<int>("AvisID")
-                        .HasColumnType("int");
+                    b.Property<DateOnly>("DateDebut")
+                        .HasColumnType("date");
 
-                    b.Property<DateTime>("DateDebut")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateFin")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("DateFin")
+                        .HasColumnType("date");
 
                     b.Property<double>("PrixFinal")
                         .HasColumnType("float");
@@ -49,8 +46,6 @@ namespace AutoWay.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ReservationID");
-
-                    b.HasIndex("AvisID");
 
                     b.HasIndex("UtilisateurID");
 
@@ -67,16 +62,16 @@ namespace AutoWay.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AvisID"));
 
-                    b.Property<DateTime>("AvisDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("DatePublication")
+                        .HasColumnType("date");
 
-                    b.Property<string>("AvisMessage")
+                    b.Property<string>("Message")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("AvisScore")
+                    b.Property<int>("ReservationID")
                         .HasColumnType("int");
 
-                    b.Property<int>("ReservationID")
+                    b.Property<int>("Score")
                         .HasColumnType("int");
 
                     b.HasKey("AvisID");
@@ -85,28 +80,6 @@ namespace AutoWay.Migrations
                         .IsUnique();
 
                     b.ToTable("Avis");
-                });
-
-            modelBuilder.Entity("AutoWay.Models.Role", b =>
-                {
-                    b.Property<int>("RoleID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleID"));
-
-                    b.Property<string>("RoleNom")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("UtilisateurID")
-                        .HasColumnType("int");
-
-                    b.HasKey("RoleID");
-
-                    b.HasIndex("UtilisateurID");
-
-                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("AutoWay.Models.Utilisateur", b =>
@@ -136,6 +109,10 @@ namespace AutoWay.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Prenom")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.PrimitiveCollection<string>("Roles")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -182,12 +159,6 @@ namespace AutoWay.Migrations
 
             modelBuilder.Entity("AutoWay.AutoWay.Models.Reservation", b =>
                 {
-                    b.HasOne("AutoWay.Models.Avis", "Avis")
-                        .WithMany()
-                        .HasForeignKey("AvisID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("AutoWay.Models.Utilisateur", "Utilisateur")
                         .WithMany("Reservations")
                         .HasForeignKey("UtilisateurID")
@@ -200,8 +171,6 @@ namespace AutoWay.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Avis");
-
                     b.Navigation("Utilisateur");
 
                     b.Navigation("Voiture");
@@ -210,19 +179,12 @@ namespace AutoWay.Migrations
             modelBuilder.Entity("AutoWay.Models.Avis", b =>
                 {
                     b.HasOne("AutoWay.AutoWay.Models.Reservation", "Reservation")
-                        .WithOne()
+                        .WithOne("Avis")
                         .HasForeignKey("AutoWay.Models.Avis", "ReservationID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Reservation");
-                });
-
-            modelBuilder.Entity("AutoWay.Models.Role", b =>
-                {
-                    b.HasOne("AutoWay.Models.Utilisateur", null)
-                        .WithMany("Roles")
-                        .HasForeignKey("UtilisateurID");
                 });
 
             modelBuilder.Entity("AutoWay.Models.Voiture", b =>
@@ -236,11 +198,14 @@ namespace AutoWay.Migrations
                     b.Navigation("Utilisateur");
                 });
 
+            modelBuilder.Entity("AutoWay.AutoWay.Models.Reservation", b =>
+                {
+                    b.Navigation("Avis");
+                });
+
             modelBuilder.Entity("AutoWay.Models.Utilisateur", b =>
                 {
                     b.Navigation("Reservations");
-
-                    b.Navigation("Roles");
 
                     b.Navigation("Voitures");
                 });

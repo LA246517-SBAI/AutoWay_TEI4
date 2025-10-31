@@ -42,9 +42,13 @@ namespace AutoWay.Services
             //Claims.AddClaim(new Claim("username", user.Prenom)); 
             Claims.AddClaim(new Claim("id", user.UtilisateurID.ToString()));
 
-            foreach (var role in user.Roles)
+            // Ajout des rôles s’ils existent
+            if (user.Roles != null)
             {
-                Claims.AddClaim(new Claim(ClaimTypes.Role, role.RoleNom));
+                foreach (var role in user.Roles)
+                {
+                    Claims.AddClaim(new Claim(ClaimTypes.Role, role));
+                }
             }
 
             return Claims;

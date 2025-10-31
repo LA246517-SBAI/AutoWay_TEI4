@@ -1,25 +1,26 @@
 ﻿using AutoWay.Models;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace AutoWay.AutoWay.Models
 {
     public class Reservation
     {
         public int ReservationID { get; set; }
-        public DateTime DateDebut { get; set; }
-        public DateTime DateFin { get; set; }
+        public DateOnly DateDebut { get; set; }
+        public DateOnly DateFin { get; set; }
         public double PrixFinal { get; set; }
 
+        [JsonIgnore]  // Empêche le cycle avec Utilisateur
+        public Utilisateur? Utilisateur { get; set; }
+
+        [JsonIgnore]  // Empêche le cycle avec Voiture
+        public Voiture? Voiture { get; set; }
+
         public int UtilisateurID { get; set; }
-
-        [ForeignKey("UtilisateurID")]
-        public Utilisateur Utilisateur { get; set; }
-
         public int VoitureID { get; set; }
-        [ForeignKey("VoitureID")]
-        public Voiture Voiture { get; set; }
 
-        [ForeignKey("AvisID")]
-        public Avis Avis { get; set; }
+        // Relation one-to-one avec Avis
+        public Avis? Avis { get; set; }
     }
 }

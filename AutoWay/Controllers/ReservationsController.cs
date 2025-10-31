@@ -22,6 +22,7 @@ namespace AutoWay.Controllers
         {
             var reservations = await _context.Reservations
                 .Include(r => r.Utilisateur)
+                .Include(r => r.Avis)
                 .ToListAsync();
             return Ok(reservations);
         }
@@ -39,6 +40,7 @@ namespace AutoWay.Controllers
 
             return Ok(reservation);
         }
+
 
         // POST: Reservations
         [HttpPost]

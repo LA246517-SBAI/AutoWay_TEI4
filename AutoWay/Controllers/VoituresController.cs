@@ -73,16 +73,21 @@ namespace AutoWay.Controllers
             return NoContent();
         }
 
-        // POST: api/Voitures
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Voiture>> PostVoiture(Voiture voiture)
         {
+            var utilisateur = await _context.Utilisateur.FindAsync(voiture.UtilisateurID);
+            if (utilisateur == null)
+                return BadRequest("Utilisateur non trouvé");
+
+            voiture.Utilisateur = utilisateur;
+
             _context.Voiture.Add(voiture);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetVoiture", new { id = voiture.VoitureID }, voiture);
         }
+
 
         // DELETE: api/Voitures/5
         [HttpDelete("{id}")]

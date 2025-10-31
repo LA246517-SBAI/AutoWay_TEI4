@@ -1,34 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using AutoWay.AutoWay.Models;
 
 namespace AutoWay.Models
 {
     public class Avis
     {
-        /**
-         * L'ID de l'avis
-         */
-        public int AvisID { get; set; }
+        public int AvisID { get; set; }                  // Identifiant principal
+        public string? Message { get; set; }         // Message optionnel de l'avis
+        public int Score { get; set; }               // Score entre 1 et 5
+        public DateOnly DatePublication { get; set; } // Date de publication
 
-        /**
-         * Le message optionnel de l'avis -- Qu'en pense l'utilisateur
-         */
-        public string? AvisMessage { get; set; }
-
-        /**
-         * Le score de l'avis allant de 1 à 5 (Nul à Excellent)
-         */
-        public int AvisScore { get; set; }
-
-        /**
-         * La date de publication de l'avis
-         */
-        public DateTime AvisDate { get; set; }
-
-        /**
-         * A quelle réservation cet avis est-il lié
-         */
-        [ForeignKey("ReservationID")]
-        public Reservation Reservation { get; set; }
+        // Clé étrangère explicite
+        public int ReservationID { get; set; }
+        [JsonIgnore]
+        public Reservation? Reservation { get; set; } // Avis lié à une réservation
     }
 }

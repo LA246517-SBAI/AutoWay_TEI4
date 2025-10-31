@@ -1,7 +1,6 @@
 using AutoWay.AutoWay.Models;
 using AutoWay.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
 namespace AutoWay.Data
 {
@@ -12,35 +11,38 @@ namespace AutoWay.Data
         {
         }
 
-        public DbSet<Voiture> Voiture { get; set; } = default!;
         public DbSet<Utilisateur> Utilisateur { get; set; } = default!;
+        public DbSet<Voiture> Voiture { get; set; } = default!;
+        public DbSet<Reservation> Reservations { get; set; } = default!;
+        public DbSet<Avis> Avis { get; set; } = default!;
 
-		public DbSet<Role> Role {  get; set; } = default!;
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
 
-		public DbSet<Reservation> Reservations { get; set; } = default;
+            // One-to-one entre Reservation et Avis
+            modelBuilder.Entity<Reservation>()
+                .HasOne(r => r.Avis)
+                .WithOne(a => a.Reservation)
+                .HasForeignKey<Avis>(a => a.ReservationID);
 
-		public DbSet<Avis> Avis { get; set; } = default!;
+            // One-to-many entre Utilisateur et Voiture
+            modelBuilder.Entity<Utilisateur>()
+                .HasMany(u => u.Voitures)
+                .WithOne(v => v.Utilisateur)
+                .HasForeignKey(v => v.UtilisateurID);
 
-        /*
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
-		{
-			base.OnModelCreating(modelBuilder);
+            // One-to-many entre Utilisateur et Reservation
+            modelBuilder.Entity<Utilisateur>()
+                .HasMany(u => u.Reservations)
+                .WithOne(r => r.Utilisateur)
+                .HasForeignKey(r => r.UtilisateurID);
 
-			// Exemple de configuration (à adapter selon ton modèle réel)
-			modelBuilder.Entity<Cours>()
-				.HasMany(c => c.Etudiants)
-				.WithMany(e => e.Cours);
-
-			modelBuilder.Entity<Cours>()
-				.HasOne(c => c.Enseignant)
-				.WithMany(e => e.Cours)
-				.HasForeignKey("EnseignantId");
-
-			modelBuilder.Entity<Enseignant>().HasData(
-				new Enseignant { Id = 1, Nom = "Brunquers", Prenom = "Benjamin", Email = "brunquersb@helha.be" },
-				new Enseignant { Id = 2, Nom = "Alary", Prenom = "Philippe", Email = "alaryp@helha.be" }
-			);
-		}
-		*/
+            // One-to-many entre Voiture et Reservation
+            modelBuilder.Entity<Voiture>()
+                .HasMany(v => v.Reservations)
+                .WithOne(r => r.Voiture)
+                .HasForeignKey(r => r.VoitureID);
+        }
     }
 }
