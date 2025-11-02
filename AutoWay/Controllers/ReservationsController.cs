@@ -48,7 +48,7 @@ namespace AutoWay.Controllers
 
         // POST: Reservations
         [HttpPost]
-        [Authorize(Roles = "ADMIN,STAFF")]
+        [Authorize(Roles = "ADMIN,STAFF,USER")]
         public async Task<ActionResult<Reservation>> CreateReservation([FromBody] Reservation reservation)
         {
             if (!ModelState.IsValid)
