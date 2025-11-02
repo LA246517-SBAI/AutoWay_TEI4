@@ -54,6 +54,21 @@ namespace AutoWay.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            var voiture = await _context.Voiture.FindAsync(reservation.VoitureID);
+            if (voiture == null)
+                return BadRequest("Voiture inexistante.");
+
+            reservation.Voiture = voiture;
+
+
+            var voitureDispo = !_context.Reservations.Any(r => r.VoitureID == reservation.VoitureID &&
+             ((reservation.DateDebut >= r.DateDebut && reservation.DateDebut <= r.DateFin) ||
+              (reservation.DateFin >= r.DateDebut && reservation.DateFin <= r.DateFin)));
+
+            if (!voitureDispo)
+                return BadRequest("La voiture n'est pas disponible sur cette période.");
+
+
             _context.Reservations.Add(reservation);
             await _context.SaveChangesAsync();
 
@@ -65,6 +80,9 @@ namespace AutoWay.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateReservation(int id, [FromBody] Reservation reservation)
         {
+            if (User.IsInRole("USER") && reservation.UtilisateurID != int.Parse(User.FindFirst("id").Value))
+                return Forbid();
+            
             if (id != reservation.ReservationID)
                 return BadRequest(new { message = "L'ID ne correspond pas." });
 
@@ -90,12 +108,14 @@ namespace AutoWay.Controllers
 
         // DELETE: Reservations/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "ADMIN,STAFF")]
+        [Authorize(Roles = "ADMIN,STAFF,USER")]
         public async Task<IActionResult> DeleteReservation(int id)
         {
+
             var reservation = await _context.Reservations.FindAsync(id);
             if (reservation == null)
                 return NotFound(new { message = "Réservation introuvable." });
+
 
             _context.Reservations.Remove(reservation);
             await _context.SaveChangesAsync();
