@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,15 +15,16 @@ builder.Services.AddDbContext<AutoWayContext>(options =>
         ?? throw new InvalidOperationException("Connection string 'AutoWayContext' not found.")));
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 
 // Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 builder.Services.AddScoped<AuthorizationService>();
 
+// Authentification JWT
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -39,15 +41,23 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
         ValidAudience = builder.Configuration["Jwt:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+            Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+
+        // Important pour que [Authorize(Roles="...")] fonctionne
+        RoleClaimType = ClaimTypes.Role,
+        NameClaimType = ClaimTypes.Name
     };
 });
 
+//  Nécessaire pour gérer les rôles
+builder.Services.AddAuthorization();
+
+// Swagger config (avec Bearer token)
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "AutoWay API", Version = "v1" });
 
-    // Définition du schéma de sécurité
+    // Définition du schéma de sécurité JWT
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
@@ -57,7 +67,7 @@ builder.Services.AddSwaggerGen(c =>
         Scheme = "Bearer"
     });
 
-    // Application du schéma à tous les endpoints protégés
+    // Application globale du schéma
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -74,7 +84,6 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-
 var app = builder.Build();
 
 // Configure HTTP request pipeline.
@@ -84,7 +93,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseAuthentication();
+app.UseAuthentication(); 
 app.UseAuthorization();
 
 app.MapControllers();

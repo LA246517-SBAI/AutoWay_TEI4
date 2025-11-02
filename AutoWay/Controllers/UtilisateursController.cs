@@ -1,6 +1,7 @@
 ﻿using AutoWay.Data;
 using AutoWay.Models;
 using AutoWay.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,10 +10,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
+
 namespace AutoWay.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
+    [Authorize]
     public class UtilisateursController : ControllerBase
     {
         private readonly AutoWayContext _context;
@@ -26,6 +30,7 @@ namespace AutoWay.Controllers
 
         // GET: api/Utilisateurs
         [HttpGet]
+        [Authorize(Roles = "ADMIN,STAFF")]
         public async Task<ActionResult<IEnumerable<Utilisateur>>> GetUtilisateur()
         {
             return await _context.Utilisateur.ToListAsync();
@@ -33,6 +38,7 @@ namespace AutoWay.Controllers
 
         // GET: api/Utilisateurs/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "ADMIN,STAFF")]
         public async Task<ActionResult<Utilisateur>> GetUtilisateur(int id)
         {
             var utilisateur = await _context.Utilisateur.FindAsync(id);
@@ -53,6 +59,7 @@ namespace AutoWay.Controllers
         // PUT: api/Utilisateurs/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "ADMIN,STAFF")]
         public async Task<IActionResult> PutUtilisateur(int id, Utilisateur utilisateur)
         {
             if (id != utilisateur.UtilisateurID)
@@ -84,8 +91,15 @@ namespace AutoWay.Controllers
         // POST: api/Utilisateurs
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult<Utilisateur>> PostUtilisateur(Utilisateur utilisateur)
         {
+            /*
+            if (utilisateur.Roles.Contains("ADMIN") && !User.IsInRole("ADMIN"))
+            {
+                return Forbid();
+            }
+            */
 
             // Hash Password of new user before persist it 
             if (utilisateur.Password != null)
@@ -102,6 +116,7 @@ namespace AutoWay.Controllers
 
         // DELETE: api/Utilisateurs/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> DeleteUtilisateur(int id)
         {
             var utilisateur = await _context.Utilisateur.FindAsync(id);
@@ -115,7 +130,7 @@ namespace AutoWay.Controllers
 
             return NoContent();
         }
-
+        [AllowAnonymous]
         [HttpPost("/login")]
         public async Task<ActionResult> Login([FromForm] string email, [FromForm] string password)
         {

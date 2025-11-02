@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using AutoWay.AutoWay.Models;
 using AutoWay.Data;
-using AutoWay.AutoWay.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AutoWay.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class ReservationsController : ControllerBase
     {
         private readonly AutoWayContext _context;
@@ -18,6 +20,7 @@ namespace AutoWay.Controllers
 
         // GET: Reservations
         [HttpGet]
+        [Authorize(Roles = "ADMIN,STAFF")]
         public async Task<ActionResult<IEnumerable<Reservation>>> GetReservations()
         {
             var reservations = await _context.Reservations
@@ -29,6 +32,7 @@ namespace AutoWay.Controllers
 
         // GET: Reservations/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "ADMIN,STAFF")]
         public async Task<ActionResult<Reservation>> GetReservation(int id)
         {
             var reservation = await _context.Reservations
@@ -44,6 +48,7 @@ namespace AutoWay.Controllers
 
         // POST: Reservations
         [HttpPost]
+        [Authorize(Roles = "ADMIN,STAFF")]
         public async Task<ActionResult<Reservation>> CreateReservation([FromBody] Reservation reservation)
         {
             if (!ModelState.IsValid)
@@ -85,6 +90,7 @@ namespace AutoWay.Controllers
 
         // DELETE: Reservations/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "ADMIN,STAFF")]
         public async Task<IActionResult> DeleteReservation(int id)
         {
             var reservation = await _context.Reservations.FindAsync(id);

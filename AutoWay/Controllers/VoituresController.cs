@@ -7,11 +7,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AutoWay.Data;
 using AutoWay.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+
 
 namespace AutoWay.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize]
     public class VoituresController : ControllerBase
     {
         private readonly AutoWayContext _context;
@@ -23,6 +27,7 @@ namespace AutoWay.Controllers
 
         // GET: api/Voitures
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<Voiture>>> GetVoiture()
         {
             return await _context.Voiture.ToListAsync();
@@ -30,6 +35,7 @@ namespace AutoWay.Controllers
 
         // GET: api/Voitures/5
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<Voiture>> GetVoiture(int id)
         {
             var voiture = await _context.Voiture.FindAsync(id);
@@ -45,6 +51,7 @@ namespace AutoWay.Controllers
         // PUT: api/Voitures/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "ADMIN,STAFF")]
         public async Task<IActionResult> PutVoiture(int id, Voiture voiture)
         {
             if (id != voiture.VoitureID)
@@ -74,6 +81,7 @@ namespace AutoWay.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "ADMIN,STAFF")] // => Seuls ADMIN ou STAFF peuvent créer une voiture
         public async Task<ActionResult<Voiture>> PostVoiture(Voiture voiture)
         {
             var utilisateur = await _context.Utilisateur.FindAsync(voiture.UtilisateurID);
@@ -91,6 +99,7 @@ namespace AutoWay.Controllers
 
         // DELETE: api/Voitures/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> DeleteVoiture(int id)
         {
             var voiture = await _context.Voiture.FindAsync(id);

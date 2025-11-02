@@ -1,6 +1,7 @@
 using AutoWay.AutoWay.Models;
 using AutoWay.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AutoWay.Data
 {
@@ -43,6 +44,17 @@ namespace AutoWay.Data
                 .HasMany(v => v.Reservations)
                 .WithOne(r => r.Voiture)
                 .HasForeignKey(r => r.VoitureID);
+
+            // Conversion pour Roles
+            var rolesConverter = new ValueConverter<string[], string>(
+                v => string.Join(',', v), // de string[] à string pour la DB
+                v => v.Split(',', StringSplitOptions.RemoveEmptyEntries) // de string à string[] pour le code
+            );
+
+            modelBuilder.Entity<Utilisateur>()
+                .Property(u => u.Roles)
+                .HasConversion(rolesConverter)
+                .HasColumnType("nvarchar(max)");
         }
     }
 }

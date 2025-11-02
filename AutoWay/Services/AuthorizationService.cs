@@ -45,20 +45,23 @@ namespace AutoWay.Services
         private ClaimsIdentity GenerateClaims(Utilisateur user)
         {
             var claims = new ClaimsIdentity();
+
             claims.AddClaim(new Claim("id", user.UtilisateurID.ToString()));
             claims.AddClaim(new Claim(ClaimTypes.Name, user.Nom));
             claims.AddClaim(new Claim(ClaimTypes.Email, user.Email));
 
-            if (user.Roles != null)
+            if (user.Roles != null && user.Roles.Any())
             {
                 foreach (var role in user.Roles)
                 {
-                    claims.AddClaim(new Claim(ClaimTypes.Role, role));
+                    if (!string.IsNullOrWhiteSpace(role))
+                        claims.AddClaim(new Claim(ClaimTypes.Role, role));
                 }
             }
 
             return claims;
         }
+
 
         public bool IsTokenValid(string token, string role = null)
         {

@@ -21,8 +21,6 @@ namespace AutoWay.Models
 
         [JsonIgnore] // idem pour les réservations
         public List<Reservation>? Reservations { get; set; }
-
-        [NotMapped]
         public string[] Roles { get; set; }
 
     }
