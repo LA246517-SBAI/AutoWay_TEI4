@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
   padding: 20px;
 }
 
@@ -36,8 +36,8 @@ h2 {
 }
 
 .forgot-password {
-  text-align: right;
-  margin-bottom: 20px;
+  text-align: center; /* centré au lieu de right */
+  margin: 20px 0;     /* marge au-dessus et en dessous */
 }
 
 .forgot-password a {
