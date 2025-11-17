@@ -1,1 +1,37 @@
-<p>connexion works!</p>
+<div class="login-container">
+
+  <div class="login-card">
+
+    <h2>Connexion</h2>
+    <p class="subtitle">Connectez-vous à votre espace</p>
+
+    <!-- Champ email -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <mat-icon matPrefix>mail</mat-icon>
+      <input matInput type="email" placeholder="Votre email" required>
+      <mat-error>Email invalide ou manquant</mat-error>
+    </mat-form-field>
+
+    <!-- Mot de passe -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Mot de passe</mat-label>
+      <mat-icon matPrefix>lock</mat-icon>
+      <input matInput [type]="hide ? 'password' : 'text'" required>
+      <button mat-icon-button matSuffix (click)="hide = !hide" type="button">
+        <mat-icon>{{ hide ? 'visibility' : 'visibility_off' }}</mat-icon>
+      </button>
+      <mat-error>Mot de passe requis</mat-error>
+    </mat-form-field>
+
+    <div class="forgot-password">
+      <a href="#">Mot de passe oublié ?</a>
+    </div>
+
+    <button mat-raised-button color="primary" class="full-width">
+      Se connecter
+    </button>
+
+  </div>
+
+</div>
