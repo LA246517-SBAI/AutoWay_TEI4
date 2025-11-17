@@ -1,10 +1,22 @@
 .login-container {
   min-height: 100vh;
   display: flex;
+  flex-direction: column; /* empile verticalement */
   align-items: center;
   justify-content: center;
-
   padding: 20px;
+}
+
+.app-header {
+  margin-bottom: -50px; /* fait remonter le logo sur la card */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-logo {
+  max-height: 120px;
+  max-width: 200px;
 }
 
 .login-card {
@@ -14,8 +26,9 @@
   width: 100%;
   max-width: 400px;
   box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-  animation: fadeUp 0.4s ease-out;
+  z-index: 1;
 }
+
 
 h2 {
   margin: 0;
