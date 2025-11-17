@@ -25,7 +25,7 @@
   border-radius: 16px;
   width: 100%;
   max-width: 400px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  box-shadow: 0 20px 50px rgba(81, 2, 252, 0.3);
   z-index: 1;
 }
 
@@ -62,6 +62,25 @@ h2 {
 .forgot-password a:hover {
   text-decoration: underline;
 }
+.login-button {
+  margin-top: 20px;
+  background: linear-gradient(90deg, #5a4bff, #6901fb);
+  color: white;
+  font-weight: 600;
+  padding: 12px 0;
+  border-radius: 8px;
+  width: 100%;
+  text-transform: none; /* pour enlever les majuscules Material */
+  letter-spacing: 0.5px;
+  transition: 0.2s ease;
+}
+
+.login-button:hover {
+  background: linear-gradient(90deg, #4b3cff, #6a54ff);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(90, 75, 255, 0.4);
+}
+
 
 @keyframes fadeUp {
   from {
