@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
-import { ConnexionComponent } from './components/connexion/connexion.component';
+import { DummyComponent } from './dummy/dummy.component';
 
 export const routes: Routes = [
-
-    {path: 'connexion', component: ConnexionComponent},
+  { path: '', component: DummyComponent },
 ];
