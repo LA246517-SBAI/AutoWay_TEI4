@@ -1,0 +1,19 @@
+<h2>{{ isEdit ? 'Modifier' : 'Créer' }} une catégorie</h2>
+
+<form (ngSubmit)="save()">
+
+  <div class="mb-3">
+    <label>Nom</label>
+    <input class="form-control" [(ngModel)]="categorie.nom" name="nom" required>
+  </div>
+
+  <div class="mb-3">
+    <label>Description</label>
+    <textarea class="form-control" [(ngModel)]="categorie.description" name="description"></textarea>
+  </div>
+
+  <button class="btn btn-success">
+    {{ isEdit ? 'Mettre à jour' : 'Créer' }}
+  </button>
+
+</form>
