@@ -22,22 +22,24 @@ export class CategorieFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const id = this.route.snapshot.params['id'];
-    if (id) {
-      this.isEdit = true;
-      this.catService.getById(id).subscribe(res => this.categorie = res);
-    }
+  const id = Number(this.route.snapshot.params['id']);
+  if (id) {
+    this.isEdit = true;
+    this.catService.getById(id).subscribe(res => this.categorie = res);
   }
+}
+
 
   save() {
-    if (this.isEdit) {
-      this.catService.update(this.categorie.id, this.categorie).subscribe(() => {
-        this.router.navigate(['/categories']);
-      });
-    } else {
-      this.catService.create(this.categorie).subscribe(() => {
-        this.router.navigate(['/categories']);
-      });
-    }
+  if (this.isEdit) {
+    this.catService.update(this.categorie.id, this.categorie).subscribe(() => {
+      this.router.navigate(['/categories']);
+    });
+  } else {
+    this.catService.create(this.categorie).subscribe(() => {
+      this.router.navigate(['/categories']);
+    });
   }
+}
+
 }
