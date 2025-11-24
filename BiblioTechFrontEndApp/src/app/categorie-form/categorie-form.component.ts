@@ -3,10 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CategorieService } from '../service/categorie-service';
 import { Categorie } from '../interface/Categorie';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-categorie-form',
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './categorie-form.component.html',
   styleUrl: './categorie-form.component.css'
 })
