@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { ConnexionComponent } from './components/connexion/connexion.component';
 import { CategorieListComponent } from '../app/categorie-list/categorie-list.component';
 import { CategorieFormComponent } from '../app/categorie-form/categorie-form.component';
+import { LivresListComponent } from './livres-list/livres-list.component';
 
 
 export const routes: Routes = [
@@ -10,5 +11,6 @@ export const routes: Routes = [
     { path: 'categories', component: CategorieListComponent },
     { path: 'categories/new', component: CategorieFormComponent },
     { path: 'categories/edit/:id', component: CategorieFormComponent },
+    { path: 'livres', component: LivresListComponent },
     { path: '**', redirectTo: 'categories' }
 ];

@@ -1,0 +1,42 @@
+<div class="page-container">
+  <h2>Livres</h2>
+
+  <div class="card-container">
+
+    <div class="mb-3">
+      <label>Filtrer par catégorie :</label>
+      <select class="form-control" [(ngModel)]="selectedCategorieId" (change)="filterByCategorie()">
+  <option [ngValue]="null">Toutes</option>
+  <option *ngFor="let c of categories" [ngValue]="c.id">{{ c.nom }}</option>
+</select>
+
+    </div>
+
+    <button class="add-button" routerLink="/livres/new" *ngIf="isAdmin">Ajouter</button>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Titre</th>
+          <th>Auteur</th>
+          <th>Exemplaires</th>
+          <th>Catégorie</th>
+          <th *ngIf="isAdmin">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let l of livres">
+          <td>{{ l.titre }}</td>
+          <td>{{ l.auteur }}</td>
+          <td>{{ l.nbExemplaires }}</td>
+          <td>{{ l.categorie.nom }}</td>
+          <td *ngIf="isAdmin">
+            <button class="btn-action btn-edit" [routerLink]="['/livres/edit', l.id]">Modifier</button>
+            <button class="btn-action btn-delete" (click)="deleteLivre(l)">Supprimer</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>

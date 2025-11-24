@@ -10,40 +10,33 @@ import { RouterLink } from '@angular/router';
   standalone: true,
   templateUrl: './categorie-list.component.html',
   imports: [CommonModule, HttpClientModule, RouterLink], // <-- ajoute HttpClientModule ici
-  providers: [CategorieService]
+  providers: [CategorieService],
+  styleUrl: './categorie-list.component.css'
 })
 export class CategorieListComponent implements OnInit {
+  categories: any[] = [];
+  isAdmin: boolean = false; // par défaut false
 
-  categories: Categorie[] = [];
-  error = '';
-
-  constructor(private categorieService: CategorieService) {}
+  constructor( private categorieService: CategorieService) {}
 
   ngOnInit(): void {
-    this.load();
+    // récupérer les catégories
+    this.categorieService.getAll().subscribe(data => {
+      this.categories = data;
+    });
+
+    // récupérer le rôle de l'utilisateur
+    //this.isAdmin = this.authService.isUserAdmin(); 
+    // isUserAdmin() doit renvoyer true si l'utilisateur connecté est admin
+    this.isAdmin = false;
   }
 
-  load() {
-  this.categorieService.getAll().subscribe({
-    next: data => this.categories = data,
-    error: err => {
-      console.error('Erreur HTTP:', err); // <-- Ici on affiche tous les détails
-      this.error = 'Erreur chargement catégories';
-    }
-  });
-}
+  deleteCategorie(categorie: any) {
+    if (!confirm("Voulez-vous vraiment supprimer cette catégorie ?")) return;
 
-  deleteCategorie(cat: Categorie) {
-    if (cat.livres && cat.livres.length > 0) {
-      alert(`Impossible : cette catégorie contient ${cat.livres.length} livre(s).`);
-      return;
-    }
-
-    if (!confirm("Supprimer cette catégorie ?")) return;
-
-    this.categorieService.delete(cat.id).subscribe({
-      next: () => this.load(),
-      error: err => alert(err.error || "Erreur suppression")
+    this.categorieService.delete(categorie.id).subscribe(() => {
+      this.categories = this.categories.filter(c => c.id !== categorie.id);
     });
   }
 }
+
