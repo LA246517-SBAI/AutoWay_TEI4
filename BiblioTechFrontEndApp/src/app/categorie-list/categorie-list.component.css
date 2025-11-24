@@ -1,0 +1,232 @@
+/* --- CONTAINER GLOBAL --- */
+.page-container {
+  min-height: 100vh;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* --- TITRES --- */
+h2 {
+  color: white;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  animation: fadeUp 0.4s ease-out;
+}
+
+/* --- CARD --- */
+.card-container {
+  background: white;
+  padding: 35px 30px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 900px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  animation: fadeUp 0.4s ease-out;
+}
+
+/* --- BOUTON AJOUTER --- */
+.add-button {
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+/* --- TABLE --- */
+.table {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.table th {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-weight: 600;
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+/* --- FORMULAIRE --- */
+form {
+  margin-top: 10px;
+}
+
+form label {
+  font-weight: 600;
+  color: #444;
+}
+
+form .form-control {
+  border-radius: 8px;
+  padding: 10px;
+}
+
+form button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  border-radius: 8px;
+}
+
+/* --- ANIMATION --- */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.form-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.form-group .form-control {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+}
+/* --- TABLE (améliorée mais même couleur) --- */
+.table {
+  border-radius: 12px;
+  border-collapse: collapse;
+  overflow: hidden;
+  background: white;
+  width: 100%;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.table th {
+  background: #667eea;
+  color: white;
+  padding: 14px;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.table td {
+  padding: 14px;
+  font-size: 15px;
+  color: #444;
+  border-bottom: 1px solid #eee;
+}
+
+/* survol d’une ligne */
+.table tbody tr:hover {
+  background: #f5f5ff;
+}
+
+/* --- BOUTONS ACTIONS --- */
+/* Même taille pour les boutons action */
+.btn-action {
+  padding: 8px 0;        /* on enlève le padding horizontal */
+  width: 110px;          /* largeur identique pour tous */
+  text-align: center;    /* centrer le texte */
+  border-radius: 8px;
+  font-size: 14px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  margin-right: 5px;
+}
+
+
+/* Modifier */
+.btn-edit {
+  background: #f7c948;
+  color: #3a3300;
+}
+
+.btn-edit:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* Supprimer */
+.btn-delete {
+  background: #e53e3e;
+}
+
+.btn-delete:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* --- BOUTON AJOUTER --- */
+.add-button {
+  background: #667eea;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  transition: 0.2s ease;
+  cursor: pointer;
+}
+
+.add-button:hover {
+  transform: translateY(-2px);
+  background: #5a67d8;
+}
+/* Même largeur + même padding pour th et td */
+.table th,
+.table td {
+  padding: 14px 16px;   /* même padding partout */
+  text-align: left;     /* alignement cohérent */
+}
+
+/* Enlever les bordures natives qui causent des décalages */
+.table th {
+  border-bottom: 2px solid #667eea;
+}
+
+.table td {
+  border-bottom: 1px solid #eee;
+}
+
+/* Fixe l'alignement vertical du contenu */
+.table td,
+.table th {
+  vertical-align: middle;
+}
+
+/* Garantir que les colonnes s'alignent exactement */
+.table {
+  table-layout: fixed;
+}
+
+.table th:nth-child(1),
+.table td:nth-child(1) { width: 25%; }
+
+.table th:nth-child(2),
+.table td:nth-child(2) { width: 35%; }
+
+.table th:nth-child(3),
+.table td:nth-child(3) { width: 20%; }
+
+.table th:nth-child(4),
+.table td:nth-child(4) { width: 20%; }
+
+

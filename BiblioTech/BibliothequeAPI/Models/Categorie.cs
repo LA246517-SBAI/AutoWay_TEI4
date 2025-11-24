@@ -9,7 +9,7 @@ namespace BibliothequeAPI.Models
         public string Description { get; set; } = string.Empty;
 
         // Navigation property - Ignorée dans les requêtes JSON
-        [JsonIgnore]
+        
         public ICollection<Livre> Livres { get; set; } = new List<Livre>();
     }
 }

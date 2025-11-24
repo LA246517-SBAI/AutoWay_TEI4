@@ -8,8 +8,8 @@ import { JwtInterceptor } from '../src/app/interface/http-interceptor';
 
 bootstrapApplication(AppComponent, {
   providers: [
+    provideRouter(routes),
     importProvidersFrom(HttpClientModule),
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },  // <-- important
-    provideRouter(routes)
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true } // ✅ INTERCEPTOR
   ]
 });
