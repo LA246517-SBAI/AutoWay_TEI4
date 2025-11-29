@@ -1,24 +1,32 @@
-
 <div class="login-container">
-<app-header></app-header>
-  <div class="login-card">
+  <app-header></app-header>
 
+  <div class="login-card">
     <h2>Connexion</h2>
     <p class="subtitle">Connectez-vous à votre espace</p>
 
-    <!-- Champ email -->
+    <!-- Champ identifiant (username ou email selon ton API) -->
     <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Email</mat-label>
+      <mat-label>Identifiant</mat-label>
       <mat-icon matPrefix>mail</mat-icon>
-      <input matInput type="email" placeholder="Votre email" required>
-      <mat-error>Email invalide ou manquant</mat-error>
+      <input matInput
+             type="text"
+             placeholder="Votre identifiant"
+             required
+             [(ngModel)]="username"
+             name="username">
+      <mat-error>Email / identifiant invalide ou manquant</mat-error>
     </mat-form-field>
 
     <!-- Mot de passe -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Mot de passe</mat-label>
       <mat-icon matPrefix>lock</mat-icon>
-      <input matInput [type]="hide ? 'password' : 'text'" required>
+      <input matInput
+             [type]="hide ? 'password' : 'text'"
+             required
+             [(ngModel)]="password"
+             name="password">
       <button mat-icon-button matSuffix (click)="hide = !hide" type="button">
         <mat-icon>{{ hide ? 'visibility' : 'visibility_off' }}</mat-icon>
       </button>
@@ -29,10 +37,14 @@
       Pas encore de compte ? <a routerLink="/inscription">Inscrivez-vous</a>
     </div>
 
-    <button mat-raised-button class="login-button">
-  Se connecter
-</button>
+    <!-- Message d'erreur éventuel -->
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
 
+    <!-- Bouton de connexion -->
+    <button mat-raised-button class="login-button" (click)="onLogin()">
+      Se connecter
+    </button>
   </div>
-
 </div>
