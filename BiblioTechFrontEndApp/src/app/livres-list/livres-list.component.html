@@ -29,7 +29,7 @@
           <td>{{ l.titre }}</td>
           <td>{{ l.auteur }}</td>
           <td>{{ l.nbExemplaires }}</td>
-          <td>{{ l.categorie.nom }}</td>
+          <td>{{ getCategorieNom(l.categorieId) }}</td>
           <td *ngIf="isAdmin">
             <button class="btn-action btn-edit" [routerLink]="['/livres/edit', l.id]">Modifier</button>
             <button class="btn-action btn-delete" (click)="deleteLivre(l)">Supprimer</button>

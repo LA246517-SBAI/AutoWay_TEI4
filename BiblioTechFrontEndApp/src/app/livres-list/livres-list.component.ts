@@ -41,6 +41,11 @@ export class LivresListComponent implements OnInit {
       this.categories = data;
     });
   }
+  getCategorieNom(id: number): string {
+  const cat = this.categories.find(c => c.id === id);
+  return cat ? cat.nom : 'Non définie';
+  }
+
 
   loadLivres() {
     this.livreService.getAll().subscribe(data => {

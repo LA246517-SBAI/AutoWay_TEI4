@@ -4,10 +4,11 @@ import { CategorieService } from '../service/categorie-service';
 import { Categorie } from '../interface/Categorie';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-categorie-form',
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, HttpClientModule,],
   templateUrl: './categorie-form.component.html',
   styleUrl: './categorie-form.component.css'
 })

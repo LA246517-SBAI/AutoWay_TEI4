@@ -28,7 +28,7 @@ export class CategorieListComponent implements OnInit {
     // récupérer le rôle de l'utilisateur
     //this.isAdmin = this.authService.isUserAdmin(); 
     // isUserAdmin() doit renvoyer true si l'utilisateur connecté est admin
-    this.isAdmin = false;
+    this.isAdmin = true;
   }
 
   deleteCategorie(categorie: any) {
