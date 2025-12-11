@@ -1,36 +1,48 @@
-<div class="page-container">
-  <h2>Catégories</h2>
+<div class="page-layout">
+  <div class="page-header">
+    <app-header></app-header>
+  </div>
 
-  <div class="card-container">
-    <button class="add-button" routerLink="/categories/new" *ngIf="isAdmin">Ajouter</button>
+  <div class="page-content">
+    <div class="page-container">
+      <h1>Catégories</h1>
 
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Nom</th>
-          <th>Description</th>
-          <th>Livres</th>
-          <th *ngIf="isAdmin">Actions</th> <!-- s'affiche seulement pour admin -->
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let c of categories">
-          <td>{{ c.nom }}</td>
-          <td>{{ c.description }}</td>
-          <td>{{ c.livres?.length || 0 }}</td>
-          <td>
-            <button *ngIf="isAdmin" class="btn-action btn-edit"
-                    [routerLink]="['/categories/edit', c.id]">
-              Modifier
-            </button>
+      <div class="card">
+        <div class="card-header">
+          <h3 style="margin: 0;">Liste des Catégories</h3>
+          <button class="btn btn-primary btn-sm" routerLink="/categories/new" *ngIf="isAdmin">
+            <mat-icon>add</mat-icon> Ajouter
+          </button>
+        </div>
 
-            <button *ngIf="isAdmin" class="btn-action btn-delete"
-                    (click)="deleteCategorie(c)">
-              Supprimer
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+        <div class="table-wrapper">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Livres</th>
+                <th *ngIf="isAdmin">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let c of categories">
+                <td>{{ c.nom }}</td>
+                <td>{{ c.description }}</td>
+                <td>{{ c.livres?.length || 0 }}</td>
+                <td *ngIf="isAdmin" class="actions-cell">
+                  <button class="btn btn-sm" [routerLink]="['/categories/edit', c.id]" title="Modifier">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button class="btn btn-sm" (click)="deleteCategorie(c)" title="Supprimer">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

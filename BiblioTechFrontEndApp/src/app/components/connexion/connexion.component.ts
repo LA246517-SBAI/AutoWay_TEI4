@@ -49,7 +49,22 @@ export class ConnexionComponent {
       next: (response: TokenResponse) => {
         // Stocker le token
         localStorage.setItem('token', response.token);
-        this.router.navigate(['/livres']);
+        
+        // Décoder le token pour obtenir le rôle
+        const payload = this.userService.decodeToken(response.token);
+        const userRole = payload?.role;
+        
+        // Définir le rôle dans le service
+        if (userRole) {
+          this.userService.setUserRole(userRole);
+        }
+        
+        // Rediriger selon le rôle
+        if (userRole === 'admin' || userRole === 'Admin') {
+          this.router.navigate(['/admin-dashboard']);
+        } else {
+          this.router.navigate(['/livres']);
+        }
       },
       error: (err) => {
         console.error(err);

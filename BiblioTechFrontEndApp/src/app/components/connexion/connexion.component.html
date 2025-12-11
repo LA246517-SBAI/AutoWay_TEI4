@@ -1,50 +1,54 @@
-<div class="login-container">
-  <app-header></app-header>
+<div class="auth-layout">
+  <div class="auth-container">
+    <div class="auth-header">
+      <app-header></app-header>
+    </div>
 
-  <div class="login-card">
-    <h2>Connexion</h2>
-    <p class="subtitle">Connectez-vous à votre espace</p>
+    <div class="auth-card">
+      <h2>Connexion</h2>
+      <p class="subtitle">Connectez-vous à votre espace</p>
 
-    <!-- Champ identifiant (username ou email selon ton API) -->
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Identifiant</mat-label>
-      <mat-icon matPrefix>mail</mat-icon>
-      <input matInput
-             type="text"
-             placeholder="Votre identifiant"
-             required
-             [(ngModel)]="username"
-             name="username">
-      <mat-error>Email / identifiant invalide ou manquant</mat-error>
-    </mat-form-field>
+      <!-- Message d'erreur éventuel -->
+      <div *ngIf="errorMessage" class="alert alert-error">
+        {{ errorMessage }}
+      </div>
 
-    <!-- Mot de passe -->
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Mot de passe</mat-label>
-      <mat-icon matPrefix>lock</mat-icon>
-      <input matInput
-             [type]="hide ? 'password' : 'text'"
-             required
-             [(ngModel)]="password"
-             name="password">
-      <button mat-icon-button matSuffix (click)="hide = !hide" type="button">
-        <mat-icon>{{ hide ? 'visibility' : 'visibility_off' }}</mat-icon>
+      <!-- Champ identifiant (username ou email selon ton API) -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Identifiant</mat-label>
+        <mat-icon matPrefix>mail</mat-icon>
+        <input matInput
+               type="text"
+               placeholder="Votre identifiant"
+               required
+               [(ngModel)]="username"
+               name="username">
+        <mat-error>Email / identifiant invalide ou manquant</mat-error>
+      </mat-form-field>
+
+      <!-- Mot de passe -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Mot de passe</mat-label>
+        <mat-icon matPrefix>lock</mat-icon>
+        <input matInput
+               [type]="hide ? 'password' : 'text'"
+               required
+               [(ngModel)]="password"
+               name="password">
+        <button mat-icon-button matSuffix (click)="hide = !hide" type="button">
+          <mat-icon>{{ hide ? 'visibility' : 'visibility_off' }}</mat-icon>
+        </button>
+        <mat-error>Mot de passe requis</mat-error>
+      </mat-form-field>
+
+      <!-- Bouton de connexion -->
+      <button mat-raised-button class="btn btn-primary" (click)="onLogin()">
+        Se connecter
       </button>
-      <mat-error>Mot de passe requis</mat-error>
-    </mat-form-field>
 
-    <div class="forgot-password">
-      Pas encore de compte ? <a routerLink="/inscription">Inscrivez-vous</a>
+      <div class="text-center mt-3">
+        Pas encore de compte ? <a routerLink="/inscription">Inscrivez-vous</a>
+      </div>
     </div>
-
-    <!-- Message d'erreur éventuel -->
-    <div *ngIf="errorMessage" class="error-message">
-      {{ errorMessage }}
-    </div>
-
-    <!-- Bouton de connexion -->
-    <button mat-raised-button class="login-button" (click)="onLogin()">
-      Se connecter
-    </button>
   </div>
 </div>
