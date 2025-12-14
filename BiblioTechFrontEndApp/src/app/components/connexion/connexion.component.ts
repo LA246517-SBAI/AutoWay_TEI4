@@ -38,38 +38,37 @@ export class ConnexionComponent {
   constructor(private userService: UserService, private router: Router) {}
 
   onLogin(): void {
-    this.errorMessage = null;
+  this.errorMessage = null;
 
-    const credentials: LoginRequest = {
-      username: this.username,
-      password: this.password
-    };
+  const credentials: LoginRequest = {
+    username: this.username,
+    password: this.password
+  };
 
-    this.userService.login(credentials).subscribe({
-      next: (response: TokenResponse) => {
-        // Stocker le token
-        localStorage.setItem('token', response.token);
-        
-        // Décoder le token pour obtenir le rôle
-        const payload = this.userService.decodeToken(response.token);
-        const userRole = payload?.role;
-        
-        // Définir le rôle dans le service
-        if (userRole) {
-          this.userService.setUserRole(userRole);
-        }
-        
-        // Rediriger selon le rôle
-        if (userRole === 'admin' || userRole === 'Admin') {
-          this.router.navigate(['/admin-dashboard']);
-        } else {
-          this.router.navigate(['/livres']);
-        }
-      },
-      error: (err) => {
-        console.error(err);
-        this.errorMessage = "Nom d'utilisateur ou mot de passe incorrect.";
+  this.userService.login(credentials).subscribe({
+    next: (response: TokenResponse) => {
+      // Stocker le token
+      localStorage.setItem('token', response.token);
+      
+      // Décoder le token et définir les rôles
+      const payload = this.userService.decodeToken(response.token);
+      const roles = payload?.role || payload?.['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+      
+      if (roles) {
+        this.userService.setUserRoles(roles);
       }
-    });
-  }
+      
+      // Rediriger selon le rôle
+      if (this.userService.isAdmin()) {
+        this.router.navigate(['/admin-dashboard']);
+      } else {
+        this.router.navigate(['/livres']);
+      }
+    },
+    error: (err) => {
+      console.error(err);
+      this.errorMessage = "Nom d'utilisateur ou mot de passe incorrect.";
+    }
+  });
+}
 }

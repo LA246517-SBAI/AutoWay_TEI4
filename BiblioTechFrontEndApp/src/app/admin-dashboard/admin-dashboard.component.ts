@@ -10,9 +10,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { Router } from '@angular/router';
-import { HeaderComponent } from '../components/header/header.component';
 import { UserService, User } from '../service/user.service';
 import { AdminUserFormDialogComponent } from './admin-user-form-dialog/admin-user-form-dialog.component';
+import { NavbarComponent } from "../navbar/navbar.component";
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -28,8 +28,8 @@ import { AdminUserFormDialogComponent } from './admin-user-form-dialog/admin-use
     MatInputModule,
     MatSelectModule,
     MatCardModule,
-    HeaderComponent
-  ],
+    NavbarComponent
+],
   templateUrl: './admin-dashboard.component.html',
   styleUrls: ['./admin-dashboard.component.css']
 })

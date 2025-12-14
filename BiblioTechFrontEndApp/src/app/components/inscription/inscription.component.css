@@ -1,9 +1,390 @@
-.subtitle {
+/* ===========================================
+   AUTH PAGES - CONNEXION & INSCRIPTION
+   =========================================== */
+
+/* --- LAYOUT --- */
+.auth-layout {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 50%, #3a7ca5 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- HEADER --- */
+.auth-header {
+  width: 100%;
+}
+
+/* --- CARD --- */
+.auth-card {
+  max-width: 450px;
+  width: 100%;
+  margin: 40px auto;
+  padding: 40px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- TITRE --- */
+.auth-card h2 {
+  margin: 0 0 8px 0;
+  color: #1e3a5f;
+  font-size: 2rem;
+  font-weight: 700;
   text-align: center;
+}
+
+.subtitle {
+  margin: 0 0 30px 0;
+  color: #666;
+  font-size: 1rem;
+  text-align: center;
+}
+
+/* --- ALERT --- */
+.alert {
+  padding: 14px 18px;
+  border-radius: 10px;
   margin-bottom: 25px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.alert-error {
+  background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+  color: #c62828;
+  border: 1px solid #ef9a9a;
+}
+
+.alert-error::before {
+  content: '⚠️';
+}
+
+/* --- FORM FIELDS --- */
+.full-width {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* Personnalisation Material */
+.auth-card ::ng-deep .mat-mdc-form-field-outline {
+  border-radius: 10px;
+}
+
+.auth-card ::ng-deep .mat-mdc-text-field-wrapper {
+  background: #f8f9fa;
+  border-radius: 10px;
+}
+
+.auth-card ::ng-deep .mat-mdc-form-field-flex {
+  padding: 0 16px;
+}
+
+.auth-card ::ng-deep .mdc-notched-outline__leading,
+.auth-card ::ng-deep .mdc-notched-outline__notch,
+.auth-card ::ng-deep .mdc-notched-outline__trailing {
+  border-color: #e0e0e0 !important;
+}
+
+.auth-card ::ng-deep .mat-mdc-form-field:hover .mdc-notched-outline__leading,
+.auth-card ::ng-deep .mat-mdc-form-field:hover .mdc-notched-outline__notch,
+.auth-card ::ng-deep .mat-mdc-form-field:hover .mdc-notched-outline__trailing {
+  border-color: #2d5a87 !important;
+}
+
+.auth-card ::ng-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
+.auth-card ::ng-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
+.auth-card ::ng-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
+  border-color: #1e3a5f !important;
+  border-width: 2px;
+}
+
+.auth-card ::ng-deep .mat-mdc-floating-label {
   color: #666;
 }
 
-.full-width {
+.auth-card ::ng-deep .mat-mdc-form-field.mat-focused .mat-mdc-floating-label {
+  color: #1e3a5f;
+}
+
+.auth-card ::ng-deep .mat-mdc-form-field-icon-prefix {
+  padding-right: 12px;
+  color: #888;
+}
+
+.auth-card ::ng-deep .mat-mdc-form-field.mat-focused .mat-mdc-form-field-icon-prefix {
+  color: #1e3a5f;
+}
+
+.auth-card ::ng-deep .mat-mdc-icon-button {
+  color: #888;
+}
+
+.auth-card ::ng-deep .mat-mdc-icon-button:hover {
+  color: #1e3a5f;
+}
+
+/* --- BOUTON --- */
+.btn {
   width: 100%;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(30, 58, 95, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(30, 58, 95, 0.4);
+  background: linear-gradient(135deg, #2d5a87 0%, #3a7ca5 100%);
+}
+
+.btn-primary:active {
+  transform: translateY(-1px);
+}
+
+/* --- LIEN --- */
+.text-center {
+  text-align: center;
+}
+
+.mt-3 {
+  margin-top: 25px;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.mt-3 a {
+  color: #1e3a5f;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.mt-3 a:hover {
+  color: #2d5a87;
+  text-decoration: underline;
+}
+
+/* --- DÉCORATION --- */
+.auth-card::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 30px rgba(56, 161, 105, 0.3);
+}
+
+.auth-card {
+  position: relative;
+  margin-top: 70px;
+}
+
+/* ===========================================
+   RESPONSIVE - TABLETTE
+   =========================================== */
+@media (max-width: 768px) {
+  .auth-card {
+    margin: 50px 20px;
+    padding: 35px 25px;
+    border-radius: 14px;
+  }
+
+  .auth-card h2 {
+    font-size: 1.7rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+    margin-bottom: 25px;
+  }
+
+  .full-width {
+    margin-bottom: 16px;
+  }
+
+  .btn {
+    padding: 14px 20px;
+  }
+}
+
+/* ===========================================
+   RESPONSIVE - MOBILE
+   =========================================== */
+@media (max-width: 480px) {
+  .auth-layout {
+    background: linear-gradient(180deg, #1e3a5f 0%, #2d5a87 100%);
+  }
+
+  .auth-card {
+    margin: 30px 12px;
+    padding: 30px 20px;
+    border-radius: 12px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+  }
+
+  .auth-card::before {
+    width: 80px;
+    height: 80px;
+    top: -40px;
+  }
+
+  .auth-card {
+    margin-top: 50px;
+  }
+
+  .auth-card h2 {
+    font-size: 1.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+  }
+
+  .full-width {
+    margin-bottom: 14px;
+  }
+
+  .auth-card ::ng-deep .mat-mdc-form-field-flex {
+    padding: 0 12px;
+  }
+
+  .btn {
+    padding: 14px 18px;
+    font-size: 0.95rem;
+  }
+
+  .mt-3 {
+    margin-top: 20px;
+    font-size: 0.9rem;
+  }
+
+  .alert {
+    padding: 12px 14px;
+    font-size: 0.85rem;
+  }
+}
+
+/* ===========================================
+   RESPONSIVE - TRÈS PETIT MOBILE
+   =========================================== */
+@media (max-width: 360px) {
+  .auth-card {
+    margin: 25px 8px;
+    padding: 25px 15px;
+  }
+
+  .auth-card::before {
+    width: 70px;
+    height: 70px;
+    top: -35px;
+  }
+
+  .auth-card {
+    margin-top: 45px;
+  }
+
+  .auth-card h2 {
+    font-size: 1.3rem;
+  }
+
+  .subtitle {
+    font-size: 0.8rem;
+  }
+
+  .full-width {
+    margin-bottom: 12px;
+  }
+
+  .btn {
+    padding: 12px 16px;
+    font-size: 0.9rem;
+  }
+
+  .mt-3 {
+    font-size: 0.85rem;
+  }
+}
+
+/* ===========================================
+   ANIMATION FOCUS INPUTS
+   =========================================== */
+.auth-card ::ng-deep .mat-mdc-text-field-wrapper {
+  transition: all 0.2s ease;
+}
+
+.auth-card ::ng-deep .mat-mdc-form-field.mat-focused .mat-mdc-text-field-wrapper {
+  background: white;
+  box-shadow: 0 4px 12px rgba(30, 58, 95, 0.1);
+}
+
+/* ===========================================
+   ICÔNE DÉCORATIVE (optionnel)
+   =========================================== */
+.auth-card::after {
+  content: '📚';
+  position: absolute;
+  top: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 40px;
+  z-index: 1;
+}
+
+@media (max-width: 480px) {
+  .auth-card::after {
+    font-size: 32px;
+    top: -28px;
+  }
+}
+
+@media (max-width: 360px) {
+  .auth-card::after {
+    font-size: 28px;
+    top: -24px;
+  }
 }

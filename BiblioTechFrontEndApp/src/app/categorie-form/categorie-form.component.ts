@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CategorieService } from '../service/categorie-service';
 import { Categorie } from '../interface/Categorie';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { NavbarComponent } from "../navbar/navbar.component";
+import { MatIcon } from "@angular/material/icon";
 
 @Component({
   selector: 'app-categorie-form',
-  imports: [FormsModule, CommonModule, HttpClientModule,],
+  imports: [FormsModule, CommonModule, HttpClientModule, NavbarComponent, RouterLink, MatIcon],
   templateUrl: './categorie-form.component.html',
   styleUrl: './categorie-form.component.css'
 })

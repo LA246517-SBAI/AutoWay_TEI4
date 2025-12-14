@@ -1,6 +1,6 @@
 <div class="page-layout">
   <div class="page-header">
-    <app-header></app-header>
+    <app-navbar></app-navbar>
   </div>
 
   <div class="page-content">
@@ -26,6 +26,13 @@
               </tr>
             </thead>
             <tbody>
+              <!-- Message si aucune catégorie -->
+              <tr *ngIf="categories.length === 0">
+                <td [attr.colspan]="isAdmin ? 4 : 3" style="text-align: center; padding: 20px;">
+                  Aucune catégorie disponible
+                </td>
+              </tr>
+              
               <tr *ngFor="let c of categories">
                 <td>{{ c.nom }}</td>
                 <td>{{ c.description }}</td>
