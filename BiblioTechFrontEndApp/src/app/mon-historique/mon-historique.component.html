@@ -1,0 +1,50 @@
+<div class="page-layout">
+  <header class="page-header">
+    <app-navbar></app-navbar>
+  </header>
+
+  <main class="page-content">
+    <div class="historique-container">
+      <!-- Header avec logo -->
+      <div class="historique-header">
+        <img src="assets/FullLogo_Transparent.png" alt="BiblioTech Logo" class="logo">
+      </div>
+
+      <!-- Titre -->
+      <h2 class="historique-title">Mon historique</h2>
+
+      <!-- Messages -->
+      <div class="alert alert-error" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <!-- Loading -->
+      <div class="loading" *ngIf="loading">
+        <div class="spinner"></div>
+        <p>Chargement de votre historique...</p>
+      </div>
+
+      <!-- Liste des emprunts -->
+      <div class="historique-list" *ngIf="!loading && emprunts.length > 0">
+        <div class="historique-card" *ngFor="let emprunt of emprunts">
+          <div class="card-content">
+            <p class="info-line"><span class="label">Titre :</span> {{ emprunt.livre?.titre }}</p>
+            <p class="info-line"><span class="label">Auteur :</span> {{ emprunt.livre?.auteur }}</p>
+            <p class="info-line"><span class="label">Emprunter le :</span> {{ formatDate(emprunt.dateEmprunt) }}</p>
+            <p class="info-line"><span class="label">Retourner le :</span> {{ formatDate(emprunt.dateRetourPrevue) }}</p>
+          </div>
+          <div class="card-action">
+            <button class="btn-rendu" [disabled]="true">
+              Rendu
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Message si aucun historique -->
+      <div class="empty-state" *ngIf="!loading && emprunts.length === 0">
+        <p>Vous n'avez aucun historique d'emprunt.</p>
+      </div>
+    </div>
+  </main>
+</div>
