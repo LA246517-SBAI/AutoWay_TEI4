@@ -6,6 +6,8 @@ import { CategorieFormComponent } from '../app/categorie-form/categorie-form.com
 import { LivresListComponent } from './livres-list/livres-list.component';
 import { InscriptionComponent } from './components/inscription/inscription.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { MesEmpruntsComponent } from './mes-emprunts/mes-emprunts.component';
+import { MonHistoriqueComponent } from './mon-historique/mon-historique.component';
 import { AuthGuard } from './guard/auth.guard';
 import { AdminGuard } from './guard/admin.guard';
 
@@ -19,6 +21,8 @@ export const routes: Routes = [
   { path: 'categories/new', component: CategorieFormComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'categories/edit/:id', component: CategorieFormComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'livres', component: LivresListComponent, canActivate: [AuthGuard] },
+  { path: 'mes-emprunts', component: MesEmpruntsComponent, canActivate: [AuthGuard] },
+  { path: 'mon-historique', component: MonHistoriqueComponent, canActivate: [AuthGuard] },
 
   // Routes admin uniquement
   { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard, AdminGuard] },
