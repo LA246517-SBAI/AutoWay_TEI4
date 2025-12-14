@@ -12,8 +12,8 @@ export const routes: Routes = [
 
     {path: 'connexion', component: ConnexionComponent},
     { path: 'categories', component: CategorieListComponent },
-    { path: 'categories/new', component: CategorieFormComponent },
-    { path: 'categories/edit/:id', component: CategorieFormComponent },
+    { path: 'categories/new', component: CategorieFormComponent, canActivate: [AdminGuard] },
+    { path: 'categories/edit/:id', component: CategorieFormComponent, canActivate: [AdminGuard] },
     { path: 'livres', component: LivresListComponent },
     { path: 'inscription', component: InscriptionComponent},
     { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AdminGuard] },

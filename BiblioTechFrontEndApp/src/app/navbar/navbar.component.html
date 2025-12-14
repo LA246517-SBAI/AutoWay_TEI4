@@ -1,0 +1,106 @@
+<!-- components/navbar/navbar.component.html -->
+<nav class="navbar" *ngIf="isLoggedIn">
+  <div class="navbar-container">
+    <!-- Logo -->
+    <div class="navbar-brand">
+      <a routerLink="/livres">
+        <mat-icon>library_books</mat-icon>
+        <span>BiblioTECH</span>
+      </a>
+    </div>
+
+    <!-- Liens de navigation (Desktop) -->
+    <ul class="navbar-menu" [class.open]="menuOpen">
+      <li>
+        <a routerLink="/livres" routerLinkActive="active" (click)="closeMenu()">
+          <mat-icon>book</mat-icon>
+          <span>Livres</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/categories" routerLinkActive="active" (click)="closeMenu()">
+          <mat-icon>category</mat-icon>
+          <span>Catégories</span>
+        </a>
+      </li>
+      
+      <!-- Liens Admin -->
+      <ng-container *ngIf="isCurrentRoleAdmin()">
+        <li>
+          <a routerLink="/emprunts" routerLinkActive="active" (click)="closeMenu()">
+            <mat-icon>swap_horiz</mat-icon>
+            <span>Emprunts</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/admin-dashboard" routerLinkActive="active" (click)="closeMenu()">
+            <mat-icon>people</mat-icon>
+            <span>Utilisateurs</span>
+          </a>
+        </li>
+      </ng-container>
+
+      <!-- Sélecteur de rôle (Mobile) -->
+      <li class="mobile-role-selector" *ngIf="isAdmin && userRoles.length > 1">
+        <div class="mobile-role-label">Rôle actif :</div>
+        <div class="mobile-role-buttons">
+          <button 
+            *ngFor="let role of userRoles" 
+            class="mobile-role-btn"
+            [class.active]="currentRole === role"
+            (click)="onRoleChange(role)">
+            {{ role }}
+          </button>
+        </div>
+      </li>
+
+      <!-- Déconnexion (Mobile) -->
+      <li class="mobile-logout">
+        <a (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Déconnexion</span>
+        </a>
+      </li>
+    </ul>
+
+    <!-- Section droite (Desktop) -->
+    <div class="navbar-right">
+      <!-- Sélecteur de rôle -->
+      <div class="role-selector" *ngIf="isAdmin && userRoles.length > 1">
+        <mat-form-field appearance="outline" class="role-select">
+          <mat-label>Rôle</mat-label>
+          <mat-select [(value)]="currentRole" (selectionChange)="onRoleChange($event.value)">
+            <mat-option *ngFor="let role of userRoles" [value]="role">
+              {{ role }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- Badge du rôle -->
+      <span class="role-badge" *ngIf="userRoles.length === 1" [class.admin]="isAdmin">
+        {{ currentRole }}
+      </span>
+
+      <!-- Infos utilisateur -->
+      <div class="user-info">
+        <mat-icon>account_circle</mat-icon>
+        <span class="username">{{ username }}</span>
+      </div>
+
+      <!-- Bouton déconnexion -->
+      <button class="btn-logout" (click)="logout()" title="Déconnexion">
+        <mat-icon>logout</mat-icon>
+        <span>Déconnexion</span>
+      </button>
+    </div>
+
+    <!-- Bouton burger mobile (à la fin pour qu'il soit à droite) -->
+    <button class="menu-toggle" (click)="toggleMenu()">
+      <mat-icon>{{ menuOpen ? 'close' : 'menu' }}</mat-icon>
+    </button>
+  </div>
+
+  <!-- Overlay pour fermer le menu -->
+  <div class="menu-overlay" *ngIf="menuOpen" (click)="closeMenu()"></div>
+</nav>

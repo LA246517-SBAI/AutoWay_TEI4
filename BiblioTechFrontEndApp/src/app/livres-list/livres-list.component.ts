@@ -8,13 +8,13 @@ import { CategorieService } from '../service/categorie-service';
 import { Livre } from '../interface/Livre';
 import { Categorie } from '../interface/Categorie';
 import { FormsModule } from '@angular/forms';
-import { HeaderComponent } from '../components/header/header.component';
+import { NavbarComponent } from "../navbar/navbar.component";
 
 @Component({
   selector: 'app-livres-list',
   standalone: true,
   templateUrl: './livres-list.component.html',
-  imports: [CommonModule, HttpClientModule, RouterLink, FormsModule, MatIconModule, HeaderComponent],
+  imports: [CommonModule, HttpClientModule, RouterLink, FormsModule, MatIconModule, NavbarComponent],
   providers: [LivreService, CategorieService],
   styleUrls: ['./livres-list.component.css']
 })

@@ -1,38 +1,52 @@
+<app-navbar></app-navbar>
 <div class="page-container">
+  <!-- Bouton retour -->
+  <a routerLink="/categories" class="btn-back">
+    <mat-icon>arrow_back</mat-icon>
+    <span>Retour aux catégories</span>
+  </a>
+
   <h2>{{ isEdit ? 'Modifier' : 'Créer' }} une catégorie</h2>
 
   <div class="card-container">
     <form (ngSubmit)="save()" #categorieForm="ngForm">
 
       <div class="form-row">
-        <div class="form-group mb-3">
-          <label>Nom</label>
-          <input class="form-control" 
-                 [(ngModel)]="categorie.nom" 
-                 name="nom" 
-                 required 
-                 maxlength="50"
-                 #nom="ngModel">
+        <div class="form-group">
+          <label for="nom">Nom</label>
+          <input 
+            id="nom"
+            class="form-control" 
+            [(ngModel)]="categorie.nom" 
+            name="nom" 
+            required 
+            maxlength="50"
+            placeholder="Entrez le nom de la catégorie"
+            #nom="ngModel">
           <div *ngIf="nom.invalid && nom.touched" class="text-danger">
             Le nom est obligatoire et ne doit pas dépasser 50 caractères.
           </div>
         </div>
 
-        <div class="form-group mb-3">
-          <label>Description</label>
-          <textarea class="form-control fixed-textarea" 
-                    [(ngModel)]="categorie.description" 
-                    name="description" 
-                    required 
-                    maxlength="50"
-                    #desc="ngModel"></textarea>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea 
+            id="description"
+            class="form-control fixed-textarea" 
+            [(ngModel)]="categorie.description" 
+            name="description" 
+            required 
+            maxlength="50"
+            placeholder="Entrez une description"
+            #desc="ngModel"></textarea>
           <div *ngIf="desc.invalid && desc.touched" class="text-danger">
             La description est obligatoire et ne doit pas dépasser 50 caractères.
           </div>
         </div>
       </div>
 
-      <button class="btn-form-submit mt-3" [disabled]="categorieForm.invalid">
+      <button type="submit" class="btn-form-submit" [disabled]="categorieForm.invalid">
+        <mat-icon>{{ isEdit ? 'save' : 'add' }}</mat-icon>
         {{ isEdit ? 'Mettre à jour' : 'Créer' }}
       </button>
 

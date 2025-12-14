@@ -1,193 +1,324 @@
-/* --- CONTAINER GLOBAL --- */
-.page-container {
+/* ===========================================
+   FORMULAIRE CATÉGORIE - RESPONSIVE
+   =========================================== */
+
+/* --- PAGE BACKGROUND --- */
+:host {
+  display: block;
   min-height: 100vh;
-  padding: 40px 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  background: #f5f7fa;
 }
 
-/* --- TITRES --- */
-h2 {
-  color: white;
-  text-align: center;
-  font-size: 30px;
-  font-weight: 700;
+/* --- CONTAINER --- */
+.page-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* --- BOUTON RETOUR --- */
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: white;
+  color: #555;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
   margin-bottom: 25px;
-  animation: fadeUp 0.4s ease-out;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.btn-back:hover {
+  background: #f5f5f5;
+  color: #1e3a5f;
+  transform: translateX(-3px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.btn-back mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  transition: transform 0.2s ease;
+}
+
+.btn-back:hover mat-icon {
+  transform: translateX(-2px);
+}
+
+/* --- TITRE --- */
+.page-container h2 {
+  margin-bottom: 25px;
+  color: #1e3a5f;
+  font-weight: 600;
+  font-size: 1.8rem;
 }
 
 /* --- CARD --- */
 .card-container {
   background: white;
-  padding: 35px 30px;
-  border-radius: 16px;
-  width: 100%;
-  max-width: 900px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-  animation: fadeUp 0.4s ease-out;
-}
-
-/* --- BOUTON AJOUTER --- */
-.add-button {
-  display: inline-block;
-  margin-bottom: 20px;
-}
-
-/* --- TABLE --- */
-.table {
-  background: white;
   border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  padding: 35px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e8e8e8;
+  animation: fadeInUp 0.3s ease-out;
 }
 
-.table th {
-  background: #667eea;
-  color: white;
-  border: none;
-  padding: 12px;
-  font-weight: 600;
-}
-
-.table td {
-  vertical-align: middle;
-}
-
-/* --- FORMULAIRE --- */
-form {
-  margin-top: 10px;
-}
-
-form label {
-  font-weight: 600;
-  color: #444;
-}
-
-form .form-control {
-  border-radius: 8px;
-  padding: 10px;
-}
-
-form button {
-  margin-top: 10px;
-  width: 100%;
-  padding: 10px 0;
-  font-size: 16px;
-  border-radius: 8px;
-}
-
-/* --- ANIMATION --- */
-@keyframes fadeUp {
+@keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(15px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
-.form-group {
-  width: 100%;
+
+/* --- FORMULAIRE --- */
+.form-row {
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
+  gap: 24px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .form-group label {
   font-weight: 600;
-  margin-bottom: 5px;
+  color: #333;
+  font-size: 0.95rem;
 }
 
-.form-group .form-control {
+/* --- INPUTS --- */
+.form-control {
   width: 100%;
-  padding: 10px;
+  padding: 14px 16px;
+  border: 1px solid #ddd;
   border-radius: 8px;
-}
-/* --- BOUTONS ACTIONS --- */
-/* Même taille pour les boutons action */
-.btn-action {
-  padding: 8px 0;        /* on enlève le padding horizontal */
-  width: 110px;          /* largeur identique pour tous */
-  text-align: center;    /* centrer le texte */
-  border-radius: 8px;
-  font-size: 14px;
-  border: none;
-  color: white;
-  cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-  margin-right: 5px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  background: #fafafa;
+  box-sizing: border-box;
+  font-family: inherit;
 }
 
-
-/* Modifier */
-.btn-edit {
-  background: #f7c948;
-  color: #3a3300;
+.form-control:focus {
+  outline: none;
+  border-color: #2d5a87;
+  box-shadow: 0 0 0 3px rgba(45, 90, 135, 0.15);
+  background: white;
 }
 
-.btn-edit:hover {
-  transform: translateY(-2px);
-  opacity: 0.9;
+.form-control:hover:not(:focus) {
+  border-color: #bbb;
 }
 
-/* Supprimer */
-.btn-delete {
-  background: #e53e3e;
+.form-control::placeholder {
+  color: #999;
 }
 
-.btn-delete:hover {
-  transform: translateY(-2px);
-  opacity: 0.9;
-}
-
-/* --- BOUTON AJOUTER --- */
-.add-button {
-  background: #667eea;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 8px;
-  color: white;
-  font-size: 15px;
-  font-weight: 600;
-  transition: 0.2s ease;
-  cursor: pointer;
-}
-
-.add-button:hover {
-  transform: translateY(-2px);
-  background: #5a67d8;
-}
-/* Bouton formulaire spécifique */
-.btn-form-submit {
-  background: #667eea;           /* violet thème */
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  font-size: 16px;
-  font-weight: 600;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
-  width: 150px;                  /* largeur fixe */
-}
-
-.btn-form-submit:hover {
-  background: #5a67d8;
-  transform: translateY(-2px);
-  opacity: 0.9;
-}
-
-/* Textarea largeur et hauteur fixes */
+/* --- TEXTAREA --- */
 .fixed-textarea {
-  width: 100%;                  /* occupe toute la colonne */
-  height: 120px;                /* hauteur fixe */
-  resize: none;                 /* empêche le redimensionnement manuel */
-  padding: 10px;
-  border-radius: 8px;
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.5;
 }
 
+/* --- VALIDATION --- */
+.text-danger {
+  color: #e53e3e;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
 
+.form-control.ng-invalid.ng-touched {
+  border-color: #e53e3e;
+  background: #fff5f5;
+}
 
+.form-control.ng-valid.ng-touched {
+  border-color: #38a169;
+  background: #f0fff4;
+}
+
+/* --- BOUTON SUBMIT --- */
+.btn-form-submit {
+  width: 100%;
+  padding: 16px 24px;
+  margin-top: 30px;
+  background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn-form-submit mat-icon {
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+}
+
+.btn-form-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(30, 58, 95, 0.35);
+}
+
+.btn-form-submit:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-form-submit:disabled {
+  background: linear-gradient(135deg, #a0a0a0 0%, #c0c0c0 100%);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ===========================================
+   RESPONSIVE - TABLETTE (768px - 1024px)
+   =========================================== */
+@media (max-width: 768px) {
+  .page-container {
+    padding: 30px 15px;
+    max-width: 100%;
+  }
+
+  .page-container h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+
+  .card-container {
+    padding: 25px 20px;
+  }
+
+  .form-row {
+    gap: 20px;
+  }
+
+  .form-control {
+    padding: 12px 14px;
+  }
+
+  .btn-form-submit {
+    padding: 14px 20px;
+    margin-top: 25px;
+  }
+
+  .btn-back {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+  }
+}
+
+/* ===========================================
+   RESPONSIVE - MOBILE (< 480px)
+   =========================================== */
+@media (max-width: 480px) {
+  .page-container {
+    padding: 20px 12px;
+  }
+
+  .page-container h2 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+  }
+
+  .card-container {
+    padding: 20px 15px;
+    border-radius: 10px;
+  }
+
+  .form-row {
+    gap: 18px;
+  }
+
+  .form-group label {
+    font-size: 0.9rem;
+  }
+
+  .form-control {
+    padding: 12px;
+    font-size: 16px; /* Évite le zoom sur iOS */
+  }
+
+  .fixed-textarea {
+    min-height: 100px;
+  }
+
+  .btn-form-submit {
+    padding: 14px 16px;
+    font-size: 0.95rem;
+    margin-top: 20px;
+  }
+
+  /* Bouton retour compact sur mobile */
+  .btn-back {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    margin-bottom: 15px;
+  }
+
+  .btn-back span {
+    display: none;
+  }
+
+  .btn-back::after {
+    content: 'Retour';
+    margin-left: 0;
+  }
+}
+
+/* ===========================================
+   RESPONSIVE - TRÈS PETIT MOBILE (< 360px)
+   =========================================== */
+@media (max-width: 360px) {
+  .page-container {
+    padding: 15px 10px;
+  }
+
+  .card-container {
+    padding: 15px 12px;
+  }
+
+  .page-container h2 {
+    font-size: 1.2rem;
+  }
+
+  .form-control {
+    padding: 10px;
+  }
+
+  .btn-form-submit {
+    padding: 12px 14px;
+    font-size: 0.9rem;
+  }
+
+  .btn-form-submit mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}
