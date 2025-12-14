@@ -7,7 +7,7 @@ import { Livre } from '../interface/Livre';
   providedIn: 'root'
 })
 export class LivreService {
-  private apiUrl = 'https://localhost:5001/api/Livres'; // à adapter
+  private apiUrl = 'https://localhost:5001/api/Livres';
 
   constructor(private http: HttpClient) { }
 
