@@ -1,7 +1,6 @@
 // categorie-list.component.ts
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
+import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { CategorieService } from '../service/categorie-service';
 import { Categorie } from '../interface/Categorie';
@@ -13,34 +12,45 @@ import { UserService } from '../service/user.service';
   selector: 'app-categorie-list',
   standalone: true,
   templateUrl: './categorie-list.component.html',
-  imports: [CommonModule, HttpClientModule, RouterLink, MatIconModule, NavbarComponent],
-  providers: [CategorieService],
+  imports: [CommonModule, RouterLink, MatIconModule, NavbarComponent],
   styleUrl: './categorie-list.component.css'
 })
 export class CategorieListComponent implements OnInit {
   categories: Categorie[] = [];
   isAdmin: boolean = false;
+  private isBrowser: boolean;
 
   constructor(
     private categorieService: CategorieService,
-    private userService: UserService
-  ) {}
+    private userService: UserService,
+    @Inject(PLATFORM_ID) platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
 
   ngOnInit(): void {
-    this.categorieService.getAll().subscribe(data => {
-      this.categories = data;
+    this.categorieService.getAll().subscribe({
+      next: (data) => {
+        this.categories = data;
+      },
+      error: (err) => {
+        console.error('Erreur chargement catégories:', err);
+      }
     });
 
-    // Vérifier le rôle actif (pas juste si l'utilisateur EST admin)
     this.checkActiveRole();
   }
 
   checkActiveRole(): void {
+    if (!this.isBrowser) {
+      this.isAdmin = false;
+      return;
+    }
+
     const activeRole = localStorage.getItem('activeRole');
     if (activeRole) {
       this.isAdmin = activeRole.toLowerCase() === 'admin';
     } else {
-      // Si pas de rôle actif stocké, utiliser isAdmin du service
       this.isAdmin = this.userService.isAdmin();
     }
   }
