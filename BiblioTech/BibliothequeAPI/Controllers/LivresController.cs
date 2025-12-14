@@ -83,7 +83,7 @@ namespace BibliothequeAPI.Controllers
 
             // Filtrer les livres qui ont des exemplaires disponibles
             var livresDisponibles = tousLivres
-                .Where(l => 
+                .Where(l =>
                 {
                     var empruntsActifs = empruntsParLivre.ContainsKey(l.Id) ? empruntsParLivre[l.Id] : 0;
                     return l.NbExemplaires > empruntsActifs;
@@ -220,4 +220,3 @@ namespace BibliothequeAPI.Controllers
         }
     }
 }
-

@@ -8,11 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using BibliothequeAPI.Data;
 using BibliothequeAPI.Models;
 using BibliothequeAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BibliothequeAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CategoriesController : ControllerBase
     {
         private readonly BibliothequeAPIContext _context;
@@ -24,6 +26,7 @@ namespace BibliothequeAPI.Controllers
 
         // GET: api/Categories
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<Categorie>>> GetCategories()
         {
             return await _context.Categories.Include(c => c.Livres).ToListAsync();
@@ -31,10 +34,10 @@ namespace BibliothequeAPI.Controllers
 
         // GET: api/Categories/5
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<Categorie>> GetCategorie(int id)
         {
-            var categorie = await _context.Categories.Include(c => c.Livres)
-                                                     .FirstOrDefaultAsync(c => c.Id == id);
+            var categorie = await _context.Categories.Include(c => c.Livres).FirstOrDefaultAsync(c => c.Id == id);
 
             if (categorie == null)
             {
@@ -46,6 +49,7 @@ namespace BibliothequeAPI.Controllers
 
         // PUT: api/Categories/5
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutCategorie(int id, Categorie categorie)
         {
             if (id != categorie.Id)
@@ -76,6 +80,7 @@ namespace BibliothequeAPI.Controllers
 
         // POST: api/Categories
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Categorie>> PostCategorie(Categorie categorie)
         {
             _context.Categories.Add(categorie);
@@ -86,6 +91,7 @@ namespace BibliothequeAPI.Controllers
 
         // DELETE: api/Categories/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteCategorie(int id)
         {
             var categorie = await _context.Categories.FindAsync(id);
