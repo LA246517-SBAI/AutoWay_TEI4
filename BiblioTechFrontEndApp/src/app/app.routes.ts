@@ -4,6 +4,7 @@ import { ConnexionComponent } from './components/connexion/connexion.component';
 import { CategorieListComponent } from '../app/categorie-list/categorie-list.component';
 import { CategorieFormComponent } from '../app/categorie-form/categorie-form.component';
 import { LivresListComponent } from './livres-list/livres-list.component';
+import { LivreFormComponent } from './livre-form/livre-form.component';
 import { InscriptionComponent } from './components/inscription/inscription.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { AuthGuard } from './guard/auth.guard';
@@ -19,6 +20,8 @@ export const routes: Routes = [
   { path: 'categories/new', component: CategorieFormComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'categories/edit/:id', component: CategorieFormComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'livres', component: LivresListComponent, canActivate: [AuthGuard] },
+  { path: 'livres/new', component: LivreFormComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'livres/edit/:id', component: LivreFormComponent, canActivate: [AuthGuard, AdminGuard] },
 
   // Routes admin uniquement
   { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard, AdminGuard] },

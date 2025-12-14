@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { LivreService } from '../service/livre.service';
 import { CategorieService } from '../service/categorie-service';
+import { UserService } from '../service/user.service';
 import { Livre } from '../interface/Livre';
 import { Categorie } from '../interface/Categorie';
 import { FormsModule } from '@angular/forms';
@@ -24,18 +25,35 @@ export class LivresListComponent implements OnInit {
   categories: Categorie[] = [];
   selectedCategorieId: number | null = null;
   isAdmin: boolean = false;
+  private isBrowser: boolean;
 
   constructor(
     private livreService: LivreService,
-    private categorieService: CategorieService
-  ) { }
+    private categorieService: CategorieService,
+    private userService: UserService,
+    @Inject(PLATFORM_ID) platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
 
   ngOnInit(): void {
     this.loadCategories();
     this.loadLivres();
-    
-    // TODO: Remplacer par le vrai check de rôle utilisateur
-    this.isAdmin = false;
+    this.checkActiveRole();
+  }
+
+  checkActiveRole(): void {
+    if (!this.isBrowser) {
+      this.isAdmin = false;
+      return;
+    }
+
+    const activeRole = localStorage.getItem('activeRole');
+    if (activeRole) {
+      this.isAdmin = activeRole.toLowerCase() === 'admin';
+    } else {
+      this.isAdmin = this.userService.isAdmin();
+    }
   }
 
   loadCategories() {
@@ -65,11 +83,22 @@ export class LivresListComponent implements OnInit {
     }
   }
 
-  deleteLivre(livre: Livre) {
+  deleteLivre(livre: Livre): void {
     if (!confirm("Voulez-vous vraiment supprimer ce livre ?")) return;
 
-    this.livreService.delete(livre.id).subscribe(() => {
-      this.livres = this.livres.filter(l => l.id !== livre.id);
+    this.livreService.delete(livre.id).subscribe({
+      next: () => {
+        this.livres = this.livres.filter(l => l.id !== livre.id);
+      },
+      error: (err) => {
+        if (err.status === 400) {
+          alert("Impossible de supprimer ce livre car il est référencé ailleurs.");
+        } else if (err.status === 401 || err.status === 403) {
+          alert("Vous n'avez pas les droits pour effectuer cette action.");
+        } else {
+          alert("Erreur lors de la suppression du livre.");
+        }
+      }
     });
   }
 }

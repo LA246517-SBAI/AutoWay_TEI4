@@ -19,6 +19,18 @@ export class LivreService {
     return this.http.get<Livre[]>(url);
   }
 
+  getById(id: number): Observable<Livre> {
+    return this.http.get<Livre>(`${this.apiUrl}/${id}`);
+  }
+
+  create(livre: Livre): Observable<Livre> {
+    return this.http.post<Livre>(this.apiUrl, livre);
+  }
+
+  update(id: number, livre: Livre): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/${id}`, livre);
+  }
+
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
