@@ -1,3 +1,4 @@
+// app.routes.ts
 import { Routes } from '@angular/router';
 import { ConnexionComponent } from './components/connexion/connexion.component';
 import { CategorieListComponent } from '../app/categorie-list/categorie-list.component';
@@ -5,19 +6,24 @@ import { CategorieFormComponent } from '../app/categorie-form/categorie-form.com
 import { LivresListComponent } from './livres-list/livres-list.component';
 import { InscriptionComponent } from './components/inscription/inscription.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { AuthGuard } from './guard/auth.guard';
 import { AdminGuard } from './guard/admin.guard';
 
-
 export const routes: Routes = [
+  // Routes publiques (pas besoin d'être connecté)
+  { path: 'connexion', component: ConnexionComponent },
+  { path: 'inscription', component: InscriptionComponent },
 
-    {path: 'connexion', component: ConnexionComponent},
-    { path: 'categories', component: CategorieListComponent },
-    { path: 'categories/new', component: CategorieFormComponent, canActivate: [AdminGuard] },
-    { path: 'categories/edit/:id', component: CategorieFormComponent, canActivate: [AdminGuard] },
-    { path: 'livres', component: LivresListComponent },
-    { path: 'inscription', component: InscriptionComponent},
-    { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AdminGuard] },
+  // Routes protégées (besoin d'être connecté)
+  { path: 'categories', component: CategorieListComponent, canActivate: [AuthGuard] },
+  { path: 'categories/new', component: CategorieFormComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'categories/edit/:id', component: CategorieFormComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'livres', component: LivresListComponent, canActivate: [AuthGuard] },
 
-    { path: '**', redirectTo: 'connexion' }
+  // Routes admin uniquement
+  { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard, AdminGuard] },
+
+  // Redirection par défaut
+  { path: '', redirectTo: 'connexion', pathMatch: 'full' },
+  { path: '**', redirectTo: 'connexion' }
 ];
-

@@ -1,17 +1,15 @@
-// guard/admin.guard.ts
+// guard/auth.guard.ts
 import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
-import { UserService } from '../service/user.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AdminGuard implements CanActivate {
+export class AuthGuard implements CanActivate {
   private isBrowser: boolean;
 
   constructor(
-    private userService: UserService,
     private router: Router,
     @Inject(PLATFORM_ID) platformId: Object
   ) {
@@ -25,23 +23,11 @@ export class AdminGuard implements CanActivate {
 
     const token = localStorage.getItem('token');
     
-    if (!token) {
-      this.router.navigate(['/connexion']);
-      return false;
-    }
-
-    // Vérifier le rôle actif
-    const activeRole = localStorage.getItem('activeRole');
-    if (activeRole && activeRole.toLowerCase() === 'admin') {
+    if (token) {
       return true;
     }
 
-    // Sinon vérifier via le service
-    if (this.userService.isAdmin()) {
-      return true;
-    }
-
-    this.router.navigate(['/livres']);
+    this.router.navigate(['/connexion']);
     return false;
   }
 }
