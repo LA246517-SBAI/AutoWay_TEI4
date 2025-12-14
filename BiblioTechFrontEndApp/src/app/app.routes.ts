@@ -4,6 +4,8 @@ import { CategorieListComponent } from '../app/categorie-list/categorie-list.com
 import { CategorieFormComponent } from '../app/categorie-form/categorie-form.component';
 import { LivresListComponent } from './livres-list/livres-list.component';
 import { InscriptionComponent } from './components/inscription/inscription.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { AdminGuard } from './guard/admin.guard';
 
 
 export const routes: Routes = [
@@ -14,6 +16,8 @@ export const routes: Routes = [
     { path: 'categories/edit/:id', component: CategorieFormComponent },
     { path: 'livres', component: LivresListComponent },
     { path: 'inscription', component: InscriptionComponent},
+    { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AdminGuard] },
 
     { path: '**', redirectTo: 'connexion' }
 ];
+

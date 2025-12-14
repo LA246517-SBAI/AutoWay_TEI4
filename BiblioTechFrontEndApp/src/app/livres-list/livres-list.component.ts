@@ -2,17 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 import { LivreService } from '../service/livre.service';
 import { CategorieService } from '../service/categorie-service';
 import { Livre } from '../interface/Livre';
 import { Categorie } from '../interface/Categorie';
 import { FormsModule } from '@angular/forms';
+import { HeaderComponent } from '../components/header/header.component';
 
 @Component({
   selector: 'app-livres-list',
   standalone: true,
   templateUrl: './livres-list.component.html',
-  imports: [CommonModule, HttpClientModule, RouterLink, FormsModule],
+  imports: [CommonModule, HttpClientModule, RouterLink, FormsModule, MatIconModule, HeaderComponent],
   providers: [LivreService, CategorieService],
   styleUrls: ['./livres-list.component.css']
 })

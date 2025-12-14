@@ -1,42 +1,57 @@
-<div class="page-container">
-  <h2>Livres</h2>
+<div class="page-layout">
+  <div class="page-header">
+    <app-header></app-header>
+  </div>
 
-  <div class="card-container">
+  <div class="page-content">
+    <div class="page-container">
+      <h1>Livres</h1>
 
-    <div class="mb-3">
-      <label>Filtrer par catégorie :</label>
-      <select class="form-control" [(ngModel)]="selectedCategorieId" (change)="filterByCategorie()">
-  <option [ngValue]="null">Toutes</option>
-  <option *ngFor="let c of categories" [ngValue]="c.id">{{ c.nom }}</option>
-</select>
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <label class="form-label">Filtrer par catégorie :</label>
+            <select class="form-select" [(ngModel)]="selectedCategorieId" (change)="filterByCategorie()">
+              <option [ngValue]="null">Toutes</option>
+              <option *ngFor="let c of categories" [ngValue]="c.id">{{ c.nom }}</option>
+            </select>
+          </div>
+          <button class="btn btn-primary btn-sm" routerLink="/livres/new" *ngIf="isAdmin">
+            <mat-icon>add</mat-icon> Ajouter
+          </button>
+        </div>
 
+        <div class="table-wrapper">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Titre</th>
+                <th>Auteur</th>
+                <th>Exemplaires</th>
+                <th>Catégorie</th>
+                <th *ngIf="isAdmin">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let l of livres">
+                <td>{{ l.titre }}</td>
+                <td>{{ l.auteur }}</td>
+                <td>{{ l.nbExemplaires }}</td>
+                <td>{{ getCategorieNom(l.categorieId) }}</td>
+                <td *ngIf="isAdmin" class="actions-cell">
+                  <button class="btn btn-sm" [routerLink]="['/livres/edit', l.id]" title="Modifier">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button class="btn btn-sm" (click)="deleteLivre(l)" title="Supprimer">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
     </div>
-
-    <button class="add-button" routerLink="/livres/new" *ngIf="isAdmin">Ajouter</button>
-
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Titre</th>
-          <th>Auteur</th>
-          <th>Exemplaires</th>
-          <th>Catégorie</th>
-          <th *ngIf="isAdmin">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let l of livres">
-          <td>{{ l.titre }}</td>
-          <td>{{ l.auteur }}</td>
-          <td>{{ l.nbExemplaires }}</td>
-          <td>{{ getCategorieNom(l.categorieId) }}</td>
-          <td *ngIf="isAdmin">
-            <button class="btn-action btn-edit" [routerLink]="['/livres/edit', l.id]">Modifier</button>
-            <button class="btn-action btn-delete" (click)="deleteLivre(l)">Supprimer</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
   </div>
 </div>
