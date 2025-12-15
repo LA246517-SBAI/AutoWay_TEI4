@@ -15,7 +15,6 @@ import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angula
   imports: [
     CommonModule,
     RouterModule,
-    HeaderComponent,
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
