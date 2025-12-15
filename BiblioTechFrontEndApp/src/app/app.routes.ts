@@ -4,6 +4,7 @@ import { ConnexionComponent } from './components/connexion/connexion.component';
 import { CategorieListComponent } from '../app/categorie-list/categorie-list.component';
 import { CategorieFormComponent } from '../app/categorie-form/categorie-form.component';
 import { LivresListComponent } from './livres-list/livres-list.component';
+import { LivreFormComponent } from './livre-form/livre-form.component';
 import { InscriptionComponent } from './components/inscription/inscription.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { MesEmpruntsComponent } from './mes-emprunts/mes-emprunts.component';
@@ -21,6 +22,8 @@ export const routes: Routes = [
   { path: 'categories/new', component: CategorieFormComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'categories/edit/:id', component: CategorieFormComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'livres', component: LivresListComponent, canActivate: [AuthGuard] },
+  { path: 'livres/new', component: LivreFormComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'livres/edit/:id', component: LivreFormComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'mes-emprunts', component: MesEmpruntsComponent, canActivate: [AuthGuard] },
   { path: 'mon-historique', component: MonHistoriqueComponent, canActivate: [AuthGuard] },
 
