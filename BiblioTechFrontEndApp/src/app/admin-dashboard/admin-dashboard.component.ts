@@ -35,7 +35,7 @@ import { NavbarComponent } from "../navbar/navbar.component";
 })
 export class AdminDashboardComponent implements OnInit {
   users: User[] = [];
-  displayedColumns: string[] = ['id', 'username', 'name', 'email', 'roles', 'actions'];
+  displayedColumns: string[] = ['id', 'username', 'name', 'email', 'roles'];
   loading = true;
   errorMessage: string | null = null;
 
