@@ -66,11 +66,20 @@
 /* --- FILTER SECTION --- */
 .filter-section {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  align-items: flex-end;
+  gap: 15px;
   padding: 18px 25px;
   background: #fafafa;
   border-bottom: 1px solid #eee;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 200px;
 }
 
 .form-label {
@@ -80,25 +89,58 @@
   margin: 0;
 }
 
+.form-input,
 .form-select {
   padding: 10px 16px;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 0.95rem;
   background: white;
-  cursor: pointer;
   transition: all 0.2s ease;
-  min-width: 200px;
+  width: 100%;
 }
 
+.form-input {
+  cursor: text;
+}
+
+.form-select {
+  cursor: pointer;
+}
+
+.form-input:focus,
 .form-select:focus {
   outline: none;
   border-color: #38a169;
   box-shadow: 0 0 0 3px rgba(56, 161, 105, 0.1);
 }
 
+.form-input:hover,
 .form-select:hover {
   border-color: #bbb;
+}
+
+.btn-clear {
+  padding: 10px;
+  background: #f5f5f5;
+  color: #666;
+  border: 1px solid #e0e0e0;
+  min-width: auto;
+  align-self: flex-end;
+}
+
+.btn-clear:hover {
+  background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+  color: #e53935;
+  border-color: #ef5350;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(229, 57, 53, 0.2);
+}
+
+.btn-clear mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
 }
 
 /* --- BOUTON AJOUTER --- */
@@ -152,6 +194,10 @@
 .table {
   width: 100%;
   border-collapse: collapse;
+}
+
+.text-center {
+  text-align: center !important;
 }
 
 .table thead {
@@ -227,6 +273,71 @@
   box-shadow: 0 4px 12px rgba(229, 57, 53, 0.2);
 }
 
+/* --- BADGE INDISPONIBLE --- */
+.badge-indisponible {
+  display: inline-block;
+  padding: 6px 14px;
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  color: white;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
+  }
+  50% {
+    box-shadow: 0 2px 12px rgba(220, 38, 38, 0.5);
+  }
+}
+
+/* --- BADGE DÉJÀ EMPRUNTÉ --- */
+.badge-deja-emprunte {
+  display: inline-block;
+  padding: 6px 14px;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+}
+
+/* --- BOUTON EMPRUNTER --- */
+.btn-emprunter {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  padding: 8px 16px;
+  font-size: 0.9rem;
+}
+
+.btn-emprunter:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+}
+
+.btn-emprunter mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+/* --- COLONNE EMPRUNT --- */
+.emprunt-cell {
+  min-width: 150px;
+}
+
+.text-muted {
+  color: #999;
+  font-style: italic;
+}
+
 /* --- MESSAGE VIDE --- */
 .empty-message {
   text-align: center;
@@ -262,7 +373,7 @@
     font-size: 0.9rem;
   }
 
-  .form-select {
+  .filter-group {
     min-width: 180px;
   }
 }
@@ -304,17 +415,28 @@
   .filter-section {
     flex-direction: column;
     align-items: stretch;
-    gap: 8px;
+    gap: 12px;
     padding: 15px;
+  }
+
+  .filter-group {
+    min-width: 100%;
+    width: 100%;
   }
 
   .form-label {
     font-size: 0.85rem;
   }
 
+  .form-input,
   .form-select {
     min-width: 100%;
     width: 100%;
+  }
+
+  .btn-clear {
+    width: 100%;
+    align-self: stretch;
   }
 
   /* Table en mode cards */
