@@ -98,12 +98,13 @@ export class NavbarComponent implements OnInit {
   }
 
   onRoleChange(newRole: string): void {
-    this.currentRole = newRole;
-    if (this.isBrowser) {
-      localStorage.setItem('activeRole', newRole);
-    }
-    this.closeMenu();
+  this.currentRole = newRole;
+  if (this.isBrowser) {
+    localStorage.setItem('activeRole', newRole);
+    window.location.reload();
   }
+  this.closeMenu();
+}
 
   isCurrentRoleAdmin(): boolean {
     return this.currentRole.toLowerCase() === 'admin';
