@@ -16,11 +16,37 @@
         </div>
 
         <div class="filter-section">
-          <label class="form-label">Filtrer par catégorie :</label>
-          <select class="form-select" [(ngModel)]="selectedCategorieId" (change)="filterByCategorie()">
-            <option [ngValue]="null">Toutes</option>
-            <option *ngFor="let c of categories" [ngValue]="c.id">{{ c.nom }}</option>
-          </select>
+          <div class="filter-group">
+            <label class="form-label">Rechercher par titre :</label>
+            <input
+              type="text"
+              class="form-input"
+              [(ngModel)]="searchTitre"
+              (input)="applyFilters()"
+              placeholder="Titre du livre...">
+          </div>
+
+          <div class="filter-group">
+            <label class="form-label">Rechercher par auteur :</label>
+            <input
+              type="text"
+              class="form-input"
+              [(ngModel)]="searchAuteur"
+              (input)="applyFilters()"
+              placeholder="Nom de l'auteur...">
+          </div>
+
+          <div class="filter-group">
+            <label class="form-label">Filtrer par catégorie :</label>
+            <select class="form-select" [(ngModel)]="selectedCategorieId" (change)="filterByCategorie()">
+              <option [ngValue]="null">Toutes</option>
+              <option *ngFor="let c of categories" [ngValue]="c.id">{{ c.nom }}</option>
+            </select>
+          </div>
+
+          <button class="btn btn-clear" (click)="clearFilters()" title="Réinitialiser les filtres">
+            <mat-icon>clear</mat-icon>
+          </button>
         </div>
 
         <div class="table-wrapper">
@@ -30,8 +56,9 @@
                 <th>Titre</th>
                 <th>Auteur</th>
                 <th>Année</th>
-                <th>Exemplaires</th>
+                <th class="text-center">Exemplaires</th>
                 <th>Catégorie</th>
+                <th *ngIf="!isAdmin" class="text-center">Emprunter</th>
                 <th *ngIf="isAdmin">Actions</th>
               </tr>
             </thead>
@@ -40,8 +67,21 @@
                 <td>{{ l.titre }}</td>
                 <td>{{ l.auteur }}</td>
                 <td>{{ l.annee }}</td>
-                <td>{{ l.nbExemplaires }}</td>
+                <td class="text-center">
+                  <span *ngIf="l.nbExemplaires === 0" class="badge-indisponible">Indisponible</span>
+                  <span *ngIf="l.nbExemplaires > 0">{{ l.nbExemplaires }}</span>
+                </td>
                 <td>{{ getCategorieNom(l.categorieId) }}</td>
+                <td *ngIf="!isAdmin" class="text-center emprunt-cell">
+                  <span *ngIf="isLivreDejaEmprunte(l.id)" class="badge-deja-emprunte">Déjà emprunté</span>
+                  <button *ngIf="!isLivreDejaEmprunte(l.id) && l.nbExemplaires > 0"
+                          class="btn btn-emprunter"
+                          (click)="emprunterLivre(l)"
+                          title="Emprunter ce livre">
+                    <mat-icon>book</mat-icon> Emprunter
+                  </button>
+                  <span *ngIf="!isLivreDejaEmprunte(l.id) && l.nbExemplaires === 0" class="text-muted">-</span>
+                </td>
                 <td *ngIf="isAdmin" class="actions-cell">
                   <button class="btn btn-sm" [routerLink]="['/livres/edit', l.id]" title="Modifier">
                     <mat-icon>edit</mat-icon>

@@ -11,11 +11,20 @@ export class LivreService {
 
   constructor(private http: HttpClient) { }
 
-  getAll(categorieId?: number): Observable<Livre[]> {
-    let url = this.apiUrl;
+  getAll(categorieId?: number, titre?: string, auteur?: string): Observable<Livre[]> {
+    let params: string[] = [];
+
     if (categorieId) {
-      url += `?categorieId=${categorieId}`;
+      params.push(`categorieId=${categorieId}`);
     }
+    if (titre && titre.trim()) {
+      params.push(`titre=${encodeURIComponent(titre.trim())}`);
+    }
+    if (auteur && auteur.trim()) {
+      params.push(`auteur=${encodeURIComponent(auteur.trim())}`);
+    }
+
+    const url = params.length > 0 ? `${this.apiUrl}?${params.join('&')}` : this.apiUrl;
     return this.http.get<Livre[]>(url);
   }
 
