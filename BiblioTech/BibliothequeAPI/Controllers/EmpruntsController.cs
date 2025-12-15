@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using BibliothequeAPI.Data;
+using BibliothequeAPI.Dtos;
+using BibliothequeAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using BibliothequeAPI.Data;
-using BibliothequeAPI.Models;
-using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
 
 namespace BibliothequeAPI.Controllers
 {
@@ -26,7 +27,7 @@ namespace BibliothequeAPI.Controllers
 
         // GET: api/Emprunts
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Emprunt>>> GetEmprunts()
+        public async Task<ActionResult<IEnumerable<EmpruntDto>>> GetEmprunts()
         {
             var userIdClaim = User.FindFirst("id")?.Value;
             var isAdmin = User.IsInRole("Admin");
@@ -42,18 +43,66 @@ namespace BibliothequeAPI.Controllers
                 query = query.Where(e => e.UserId == userId);
             }
 
-            return await query.ToListAsync();
+            var emprunts = await query.Select(e => new EmpruntDto
+            {
+                Id = e.Id,
+                UserId = e.UserId,
+                LivreId = e.LivreId,
+                DateEmprunt = e.DateEmprunt,
+                DateRetourPrevue = e.DateRetourPrevue,
+                DateRetourEffective = e.DateRetourEffective,
+                Livre = e.Livre == null ? null : new LivreDto
+                {
+                    Id = e.Livre.Id,
+                    Titre = e.Livre.Titre,
+                    Auteur = e.Livre.Auteur,
+                    Annee = e.Livre.Annee,
+                    NbExemplaires = e.Livre.NbExemplaires,
+                    CategorieId = e.Livre.CategorieId,
+                    Categorie = e.Livre.Categorie == null ? null : new CategorieDto
+                    {
+                        Id = e.Livre.Categorie.Id,
+                        Nom = e.Livre.Categorie.Nom
+                    }
+                }
+            }).ToListAsync();
+
+            return emprunts;
         }
 
         // GET: api/Emprunts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Emprunt>> GetEmprunt(int id)
+        public async Task<ActionResult<EmpruntDto>> GetEmprunt(int id)
         {
             var emprunt = await _context.Emprunts
                 .Include(e => e.Livre)
                 .ThenInclude(l => l!.Categorie)
                 .Include(e => e.User)
-                .FirstOrDefaultAsync(e => e.Id == id);
+                .Where(e => e.Id == id)
+                .Select(e => new EmpruntDto
+                {
+                    Id = e.Id,
+                    UserId = e.UserId,
+                    LivreId = e.LivreId,
+                    DateEmprunt = e.DateEmprunt,
+                    DateRetourPrevue = e.DateRetourPrevue,
+                    DateRetourEffective = e.DateRetourEffective,
+                    Livre = e.Livre == null ? null : new LivreDto
+                    {
+                        Id = e.Livre.Id,
+                        Titre = e.Livre.Titre,
+                        Auteur = e.Livre.Auteur,
+                        Annee = e.Livre.Annee,
+                        NbExemplaires = e.Livre.NbExemplaires,
+                        CategorieId = e.Livre.CategorieId,
+                        Categorie = e.Livre.Categorie == null ? null : new CategorieDto
+                        {
+                            Id = e.Livre.Categorie.Id,
+                            Nom = e.Livre.Categorie.Nom
+                        }
+                    }
+                })
+                .FirstOrDefaultAsync();
 
             if (emprunt == null)
             {
@@ -76,7 +125,7 @@ namespace BibliothequeAPI.Controllers
 
         // GET: api/Emprunts/mes-emprunts
         [HttpGet("mes-emprunts")]
-        public async Task<ActionResult<IEnumerable<Emprunt>>> GetMesEmprunts()
+        public async Task<ActionResult<IEnumerable<EmpruntDto>>> GetMesEmprunts()
         {
             var userIdClaim = User.FindFirst("id")?.Value;
             if (userIdClaim == null || !int.TryParse(userIdClaim, out int userId))
@@ -88,6 +137,29 @@ namespace BibliothequeAPI.Controllers
                 .Include(e => e.Livre)
                 .ThenInclude(l => l!.Categorie)
                 .Where(e => e.UserId == userId && e.DateRetourEffective == null)
+                .Select(e => new EmpruntDto
+                {
+                    Id = e.Id,
+                    UserId = e.UserId,
+                    LivreId = e.LivreId,
+                    DateEmprunt = e.DateEmprunt,
+                    DateRetourPrevue = e.DateRetourPrevue,
+                    DateRetourEffective = e.DateRetourEffective,
+                    Livre = e.Livre == null ? null : new LivreDto
+                    {
+                        Id = e.Livre.Id,
+                        Titre = e.Livre.Titre,
+                        Auteur = e.Livre.Auteur,
+                        Annee = e.Livre.Annee,
+                        NbExemplaires = e.Livre.NbExemplaires,
+                        CategorieId = e.Livre.CategorieId,
+                        Categorie = e.Livre.Categorie == null ? null : new CategorieDto
+                        {
+                            Id = e.Livre.Categorie.Id,
+                            Nom = e.Livre.Categorie.Nom
+                        }
+                    }
+                })
                 .ToListAsync();
 
             return emprunts;
@@ -95,7 +167,7 @@ namespace BibliothequeAPI.Controllers
 
         // GET: api/Emprunts/mon-historique
         [HttpGet("mon-historique")]
-        public async Task<ActionResult<IEnumerable<Emprunt>>> GetMonHistorique()
+        public async Task<ActionResult<IEnumerable<EmpruntDto>>> GetMonHistorique()
         {
             var userIdClaim = User.FindFirst("id")?.Value;
             if (userIdClaim == null || !int.TryParse(userIdClaim, out int userId))
@@ -106,8 +178,31 @@ namespace BibliothequeAPI.Controllers
             var emprunts = await _context.Emprunts
                 .Include(e => e.Livre)
                 .ThenInclude(l => l!.Categorie)
-                .Where(e => e.UserId == userId)
+                .Where(e => e.UserId == userId && e.DateRetourEffective != null)
                 .OrderByDescending(e => e.DateEmprunt)
+                .Select(e => new EmpruntDto
+                {
+                    Id = e.Id,
+                    UserId = e.UserId,
+                    LivreId = e.LivreId,
+                    DateEmprunt = e.DateEmprunt,
+                    DateRetourPrevue = e.DateRetourPrevue,
+                    DateRetourEffective = e.DateRetourEffective,
+                    Livre = e.Livre == null ? null : new LivreDto
+                    {
+                        Id = e.Livre.Id,
+                        Titre = e.Livre.Titre,
+                        Auteur = e.Livre.Auteur,
+                        Annee = e.Livre.Annee,
+                        NbExemplaires = e.Livre.NbExemplaires,
+                        CategorieId = e.Livre.CategorieId,
+                        Categorie = e.Livre.Categorie == null ? null : new CategorieDto
+                        {
+                            Id = e.Livre.Categorie.Id,
+                            Nom = e.Livre.Categorie.Nom
+                        }
+                    }
+                })
                 .ToListAsync();
 
             return emprunts;
@@ -115,7 +210,7 @@ namespace BibliothequeAPI.Controllers
 
         // POST: api/Emprunts
         [HttpPost]
-        public async Task<ActionResult<Emprunt>> PostEmprunt([FromBody] EmpruntRequest request)
+        public async Task<ActionResult<EmpruntDto>> PostEmprunt([FromBody] EmpruntRequest request)
         {
             var userIdClaim = User.FindFirst("id")?.Value;
             if (userIdClaim == null || !int.TryParse(userIdClaim, out int userId))
@@ -124,7 +219,7 @@ namespace BibliothequeAPI.Controllers
             }
 
             // Vérifier que le livre existe
-            var livre = await _context.Livres.FindAsync(request.LivreId);
+            var livre = await _context.Livres.Include(l => l.Categorie).FirstOrDefaultAsync(l => l.Id == request.LivreId);
             if (livre == null)
             {
                 return NotFound("Livre introuvable.");
@@ -160,18 +255,32 @@ namespace BibliothequeAPI.Controllers
             _context.Emprunts.Add(emprunt);
             await _context.SaveChangesAsync();
 
-            // Charger les relations pour le retour
-            await _context.Entry(emprunt)
-                .Reference(e => e.Livre)
-                .LoadAsync();
-            await _context.Entry(emprunt.Livre!)
-                .Reference(l => l.Categorie)
-                .LoadAsync();
-            await _context.Entry(emprunt)
-                .Reference(e => e.User)
-                .LoadAsync();
+            // Créer le DTO pour la réponse
+            var empruntDto = new EmpruntDto
+            {
+                Id = emprunt.Id,
+                UserId = emprunt.UserId,
+                LivreId = emprunt.LivreId,
+                DateEmprunt = emprunt.DateEmprunt,
+                DateRetourPrevue = emprunt.DateRetourPrevue,
+                DateRetourEffective = emprunt.DateRetourEffective,
+                Livre = new LivreDto
+                {
+                    Id = livre.Id,
+                    Titre = livre.Titre,
+                    Auteur = livre.Auteur,
+                    Annee = livre.Annee,
+                    NbExemplaires = livre.NbExemplaires,
+                    CategorieId = livre.CategorieId,
+                    Categorie = livre.Categorie == null ? null : new CategorieDto
+                    {
+                        Id = livre.Categorie.Id,
+                        Nom = livre.Categorie.Nom
+                    }
+                }
+            };
 
-            return CreatedAtAction("GetEmprunt", new { id = emprunt.Id }, emprunt);
+            return CreatedAtAction("GetEmprunt", new { id = emprunt.Id }, empruntDto);
         }
 
         // POST: api/Emprunts/retourner-livre/{livreId}

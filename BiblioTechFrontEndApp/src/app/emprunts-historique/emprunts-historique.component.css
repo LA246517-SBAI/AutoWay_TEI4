@@ -1,0 +1,164 @@
+.historique-container {
+  padding: 40px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.header-section {
+  margin-bottom: 40px;
+}
+
+.header-section h1 {
+  color: #003a70;
+  font-size: 32px;
+  font-weight: 600;
+  margin: 0 0 15px 0;
+  letter-spacing: -0.5px;
+}
+
+.separator {
+  border: none;
+  border-top: 2px solid #003a70;
+  margin: 0;
+}
+
+.loading,
+.error-message,
+.empty-message {
+  padding: 20px;
+  text-align: center;
+  font-size: 16px;
+  margin: 20px 0;
+}
+
+.loading {
+  color: #0099cc;
+}
+
+.error-message {
+  color: #dc3545;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+}
+
+.empty-message {
+  color: #6c757d;
+  background-color: #e2e3e5;
+  border: 1px solid #d6d8db;
+  border-radius: 4px;
+}
+
+.emprunts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.emprunt-card {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e9ecef;
+  transition: background-color 0.2s ease;
+}
+
+.emprunt-card:hover {
+  background-color: #f8f9fa;
+}
+
+.emprunt-card.rendu {
+  opacity: 0.85;
+}
+
+.card-content {
+  padding: 30px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 30px;
+}
+
+.book-info {
+  flex: 1;
+}
+
+.info-label {
+  font-weight: 600;
+  color: #333333;
+  font-size: 14px;
+  margin: 12px 0 4px 0;
+  text-transform: capitalize;
+}
+
+.info-value {
+  color: #555555;
+  font-size: 14px;
+  margin: 0 0 10px 0;
+  line-height: 1.5;
+}
+
+.action-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 150px;
+}
+
+.status-badge {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #90EE90 0%, #7CCD7C 100%);
+  color: #333333;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.status-badge.rendu {
+  background: linear-gradient(135deg, #90EE90 0%, #7CCD7C 100%);
+  color: #333333;
+}
+
+.card-separator {
+  border: none;
+  border-top: 1px solid #e9ecef;
+  margin: 0;
+}
+
+.emprunt-card:last-child .card-separator {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .historique-container {
+    padding: 20px 15px;
+  }
+
+  .header-section h1 {
+    font-size: 24px;
+  }
+
+  .card-content {
+    flex-direction: column;
+    padding: 20px 15px;
+    gap: 20px;
+  }
+
+  .action-section {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .status-badge {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+
+  .info-label {
+    font-size: 13px;
+  }
+
+  .info-value {
+    font-size: 13px;
+  }
+}

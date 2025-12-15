@@ -1,8 +1,6 @@
-using System.Text.Json.Serialization;
-
-namespace BibliothequeAPI.Models
+﻿namespace BibliothequeAPI.Dtos
 {
-    public class Emprunt
+    public class EmpruntDto
     {
         public int Id { get; set; }
         public int UserId { get; set; }
@@ -10,13 +8,6 @@ namespace BibliothequeAPI.Models
         public DateTime DateEmprunt { get; set; }
         public DateTime DateRetourPrevue { get; set; }
         public DateTime? DateRetourEffective { get; set; }
-
-        // Navigation properties - Ignorées dans les requêtes JSON
-        [JsonIgnore]
-        public User? User { get; set; }
-
-       [JsonIgnore]
-        public Livre? Livre { get; set; }
+        public LivreDto? Livre { get; set; }
     }
 }
-

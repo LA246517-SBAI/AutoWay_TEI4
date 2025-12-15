@@ -7,6 +7,8 @@ import { LivresListComponent } from './livres-list/livres-list.component';
 import { LivreFormComponent } from './livre-form/livre-form.component';
 import { InscriptionComponent } from './components/inscription/inscription.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { MesEmpruntsComponent } from './mes-emprunts/mes-emprunts.component';
+import { MonHistoriqueComponent } from './mon-historique/mon-historique.component';
 import { AuthGuard } from './guard/auth.guard';
 import { AdminGuard } from './guard/admin.guard';
 
@@ -22,6 +24,8 @@ export const routes: Routes = [
   { path: 'livres', component: LivresListComponent, canActivate: [AuthGuard] },
   { path: 'livres/new', component: LivreFormComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'livres/edit/:id', component: LivreFormComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'mes-emprunts', component: MesEmpruntsComponent, canActivate: [AuthGuard] },
+  { path: 'mon-historique', component: MonHistoriqueComponent, canActivate: [AuthGuard] },
 
   // Routes admin uniquement
   { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard, AdminGuard] },

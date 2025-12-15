@@ -23,15 +23,21 @@
           <span>Catégories</span>
         </a>
       </li>
-      
+      <li>
+        <a routerLink="/mes-emprunts" routerLinkActive="active" (click)="closeMenu()">
+          <mat-icon>bookmark</mat-icon>
+          <span>Mes emprunts</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/mon-historique" routerLinkActive="active" (click)="closeMenu()">
+          <mat-icon>history</mat-icon>
+          <span>Mon historique</span>
+        </a>
+      </li>
+
       <!-- Liens Admin -->
       <ng-container *ngIf="isCurrentRoleAdmin()">
-        <li>
-          <a routerLink="/emprunts" routerLinkActive="active" (click)="closeMenu()">
-            <mat-icon>swap_horiz</mat-icon>
-            <span>Emprunts</span>
-          </a>
-        </li>
         <li>
           <a routerLink="/admin-dashboard" routerLinkActive="active" (click)="closeMenu()">
             <mat-icon>people</mat-icon>
