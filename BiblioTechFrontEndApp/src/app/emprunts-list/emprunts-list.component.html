@@ -8,7 +8,7 @@
     <p>Chargement de vos emprunts...</p>
   </div>
 
-  <div *ngIf="errorMessage" class="error-message">
+  <div *ngIf="!isLoading && errorMessage" class="error-message">
     <p>{{ errorMessage }}</p>
   </div>
 
