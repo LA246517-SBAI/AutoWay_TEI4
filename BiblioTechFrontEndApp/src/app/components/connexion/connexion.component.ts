@@ -17,7 +17,6 @@ import { UserService, LoginRequest, TokenResponse } from '../../service/user.ser
     MatInputModule,
     MatSelectModule,
     MatIconModule,
-    HeaderComponent,
     RouterModule,
     CommonModule,
     FormsModule
