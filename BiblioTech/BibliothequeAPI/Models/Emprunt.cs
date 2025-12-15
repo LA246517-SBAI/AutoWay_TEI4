@@ -14,7 +14,8 @@ namespace BibliothequeAPI.Models
         // Navigation properties - Ignorées dans les requêtes JSON
         [JsonIgnore]
         public User? User { get; set; }
-        [JsonIgnore]
+
+       [JsonIgnore]
         public Livre? Livre { get; set; }
     }
 }
