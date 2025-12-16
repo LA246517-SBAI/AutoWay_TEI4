@@ -32,7 +32,9 @@ export class AdminUserFormDialogComponent {
   isEditMode = false;
   loading = false;
   errorMessage: string | null = null;
-  roles = ['client', 'admin'];
+  
+  // ✅ Liste des rôles disponibles
+  roles = ['User', 'admin'];
 
   constructor(
     private fb: FormBuilder,
@@ -61,11 +63,19 @@ export class AdminUserFormDialogComponent {
           ? [Validators.minLength(6)]
           : [Validators.required, Validators.minLength(6)]
       ],
+      // ✅ Tableau pour multi-sélection
       role: [
-        (data?.roles && data.roles.length > 0 ? data.roles[0] : 'client') || 'client',
-        Validators.required
+        this.isEditMode && this.data?.roles && this.data.roles.length > 0 
+          ? this.data.roles 
+          : ['User'],
+        [Validators.required]
       ]
     });
+  }
+
+  // ✅ Helper pour labels lisibles
+  getRoleLabel(role: string): string {
+    return role === 'admin' ? 'Admin' : 'User';
   }
 
   onSubmit(): void {
@@ -83,7 +93,7 @@ export class AdminUserFormDialogComponent {
       name: formValue.name,
       email: formValue.email,
       password: formValue.password || this.data?.password || '',
-      roles: [formValue.role]
+      roles: formValue.role  
     };
 
     const request = this.isEditMode

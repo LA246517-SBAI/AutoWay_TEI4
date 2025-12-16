@@ -63,7 +63,7 @@
                 <th mat-header-cell *matHeaderCellDef>Rôle</th>
                 <td mat-cell *matCellDef="let element">
                   <span [ngClass]="getRolesBadgeClass(element.roles)" class="badge">
-                    {{ (element.roles && element.roles.length > 0 ? element.roles[0] : 'Client') }}
+                    {{ (element.roles && element.roles.length > 0 ? element.roles[0] : 'User') }}
                   </span>
                 </td>
               </ng-container>
