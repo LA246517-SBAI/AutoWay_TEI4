@@ -1,0 +1,100 @@
+<app-navbar></app-navbar>
+
+<div class="page-layout">
+  <div class="page-content">
+    <div class="page-container">
+      <div class="card">
+        <div class="card-header">
+          <h2>{{ isEditMode ? 'Modifier un livre' : 'Ajouter un livre' }}</h2>
+        </div>
+
+        <div class="alert alert-success" *ngIf="successMessage">
+          <mat-icon>check_circle</mat-icon>
+          {{ successMessage }}
+        </div>
+
+        <div class="alert alert-danger" *ngIf="errorMessage">
+          <mat-icon>error</mat-icon>
+          {{ errorMessage }}
+        </div>
+
+        <form #livreForm="ngForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="titre" class="form-label">Titre *</label>
+            <input
+              type="text"
+              id="titre"
+              class="form-control"
+              [(ngModel)]="livre.titre"
+              name="titre"
+              required
+              placeholder="Entrez le titre du livre">
+          </div>
+
+          <div class="form-group">
+            <label for="auteur" class="form-label">Auteur *</label>
+            <input
+              type="text"
+              id="auteur"
+              class="form-control"
+              [(ngModel)]="livre.auteur"
+              name="auteur"
+              required
+              placeholder="Entrez le nom de l'auteur">
+          </div>
+
+          <div class="form-group">
+            <label for="annee" class="form-label">Année de publication *</label>
+            <input
+              type="number"
+              id="annee"
+              class="form-control"
+              [(ngModel)]="livre.annee"
+              name="annee"
+              min="0"
+              max="2100"
+              required
+              placeholder="Année de publication">
+          </div>
+
+          <div class="form-group">
+            <label for="nbExemplaires" class="form-label">Nombre d'exemplaires *</label>
+            <input
+              type="number"
+              id="nbExemplaires"
+              class="form-control"
+              [(ngModel)]="livre.nbExemplaires"
+              name="nbExemplaires"
+              min="0"
+              required
+              placeholder="Nombre d'exemplaires disponibles">
+          </div>
+
+          <div class="form-group">
+            <label for="categorieId" class="form-label">Catégorie *</label>
+            <select
+              id="categorieId"
+              class="form-select"
+              [(ngModel)]="livre.categorieId"
+              name="categorieId"
+              required>
+              <option [ngValue]="null" selected disabled>Sélectionnez une catégorie</option>
+              <option *ngFor="let c of categories" [ngValue]="c.id">{{ c.nom }}</option>
+            </select>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" (click)="cancel()">
+              <mat-icon>close</mat-icon>
+              Annuler
+            </button>
+            <button type="submit" class="btn btn-primary" [disabled]="!livreForm.valid">
+              <mat-icon>{{ isEditMode ? 'save' : 'add' }}</mat-icon>
+              {{ isEditMode ? 'Modifier' : 'Ajouter' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

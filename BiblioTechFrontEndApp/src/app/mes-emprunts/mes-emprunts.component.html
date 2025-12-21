@@ -1,0 +1,62 @@
+<div class="page-layout">
+  <header class="page-header">
+    <app-navbar></app-navbar>
+  </header>
+
+  <main class="page-content">
+    <div class="emprunts-container">
+      
+
+      <!-- Titre -->
+      <h2 class="emprunts-title">Mes emprunts</h2>
+
+      <!-- Messages -->
+      <div class="alert alert-success" *ngIf="successMessage">
+        {{ successMessage }}
+      </div>
+      <div class="alert alert-error" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <!-- Loading -->
+      <div class="loading" *ngIf="loading">
+        <div class="spinner"></div>
+        <p>Chargement de vos emprunts...</p>
+      </div>
+
+      <!-- Tableau des emprunts -->
+      <div class="table-wrapper" *ngIf="!loading && emprunts.length > 0">
+        <table class="table emprunts-table">
+          <thead>
+            <tr>
+              <th>Titre</th>
+              <th>Date d'emprunt</th>
+              <th>Date de retour</th>
+              <th>Retourner le livre</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let emprunt of emprunts">
+              <td class="titre-cell">{{ emprunt.livre?.titre }}</td>
+              <td class="date-cell">{{ formatDate(emprunt.dateEmprunt) }}</td>
+              <td class="date-cell" [class.en-retard]="isEnRetard(emprunt)">
+                {{ formatDate(emprunt.dateRetourPrevue) }}
+                <span class="retard-label" *ngIf="isEnRetard(emprunt)">En retard</span>
+              </td>
+              <td class="action-cell">
+                <button class="btn-retourner" (click)="retournerLivre(emprunt)">
+                  Retourner maintenant
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Message si aucun emprunt -->
+      <div class="empty-state" *ngIf="!loading && emprunts.length === 0">
+        <p>Vous n'avez aucun emprunt en cours.</p>
+      </div>
+    </div>
+  </main>
+</div>

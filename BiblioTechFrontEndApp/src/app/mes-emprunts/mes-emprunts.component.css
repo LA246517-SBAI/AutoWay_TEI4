@@ -1,0 +1,391 @@
+/* ===========================================
+   MES EMPRUNTS - RESPONSIVE
+   =========================================== */
+
+/* --- PAGE LAYOUT --- */
+.page-layout {
+  min-height: 100vh;
+  background: #f5f7fa;
+}
+
+.page-content {
+  padding: 0;
+}
+
+/* --- CONTAINER --- */
+.emprunts-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* --- TITRE --- */
+.emprunts-title {
+  margin-bottom: 30px;
+  color: #1e3a5f;
+  font-weight: 700;
+  font-size: 2rem;
+}
+
+/* --- ALERTS --- */
+.alert {
+  padding: 14px 18px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.alert-error {
+  background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+  color: #c62828;
+  border: 1px solid #ef9a9a;
+}
+
+.alert-success {
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+  color: #2e7d32;
+  border: 1px solid #a5d6a7;
+}
+
+/* --- LOADING --- */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: #666;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #e0e0e0;
+  border-top-color: #1e3a5f;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading p {
+  font-size: 1rem;
+  color: #666;
+}
+
+/* --- TABLE WRAPPER --- */
+.table-wrapper {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e8e8e8;
+  overflow: hidden;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- TABLE --- */
+.emprunts-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.emprunts-table thead {
+  background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%);
+}
+
+.emprunts-table th {
+  padding: 18px 20px;
+  text-align: left;
+  font-weight: 600;
+  color: white;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.emprunts-table td {
+  padding: 18px 20px;
+  color: #333;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
+  font-size: 0.95rem;
+}
+
+.emprunts-table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.emprunts-table tbody tr:hover {
+  background: linear-gradient(135deg, #f8fbff 0%, #f0f7ff 100%);
+}
+
+.emprunts-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* --- CELLS --- */
+.titre-cell {
+  font-weight: 600;
+  color: #1e3a5f;
+}
+
+.date-cell {
+  color: #555;
+}
+
+.date-cell.en-retard {
+  color: #e53935;
+  font-weight: 600;
+}
+
+.retard-label {
+  display: inline-block;
+  margin-left: 10px;
+  padding: 4px 10px;
+  background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+  color: #c62828;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.action-cell {
+  text-align: center;
+}
+
+/* --- BOUTON RETOURNER --- */
+.btn-retourner {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(30, 58, 95, 0.2);
+}
+
+.btn-retourner:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(30, 58, 95, 0.3);
+  background: linear-gradient(135deg, #2d5a87 0%, #3a7ca5 100%);
+}
+
+.btn-retourner:active {
+  transform: translateY(0);
+}
+
+/* --- EMPTY STATE --- */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e8e8e8;
+}
+
+.empty-state p {
+  color: #888;
+  font-size: 1.1rem;
+  font-style: italic;
+  margin: 0;
+}
+
+/* ===========================================
+   RESPONSIVE - TABLETTE
+   =========================================== */
+@media (max-width: 900px) {
+  .emprunts-container {
+    padding: 30px 15px;
+  }
+
+  .emprunts-title {
+    font-size: 1.7rem;
+  }
+
+  .emprunts-table th,
+  .emprunts-table td {
+    padding: 14px 15px;
+  }
+
+  .btn-retourner {
+    padding: 8px 14px;
+    font-size: 0.8rem;
+  }
+}
+
+/* ===========================================
+   RESPONSIVE - MOBILE
+   =========================================== */
+@media (max-width: 768px) {
+  .emprunts-container {
+    padding: 25px 12px;
+  }
+
+  .emprunts-title {
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+  }
+
+  .table-wrapper {
+    border-radius: 10px;
+    padding: 12px;
+    background: transparent;
+    box-shadow: none;
+    border: none;
+  }
+
+  /* Table en mode cards */
+  .emprunts-table {
+    display: block;
+  }
+
+  .emprunts-table thead {
+    display: none;
+  }
+
+  .emprunts-table tbody {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .emprunts-table tbody tr {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e8e8e8;
+  }
+
+  .emprunts-table tbody tr:hover {
+    background: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  }
+
+  .emprunts-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .emprunts-table td:last-child {
+    border-bottom: none;
+    padding-top: 16px;
+    margin-top: 8px;
+    border-top: 1px solid #eee;
+  }
+
+  .emprunts-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #666;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  .titre-cell::before {
+    content: 'Titre';
+  }
+
+  .date-cell:nth-of-type(2)::before {
+    content: "Date d'emprunt";
+  }
+
+  .date-cell:nth-of-type(3)::before {
+    content: 'Date de retour';
+  }
+
+  .action-cell::before {
+    display: none;
+  }
+
+  .action-cell {
+    justify-content: center;
+  }
+
+  .btn-retourner {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 0.9rem;
+  }
+
+  .retard-label {
+    margin-left: 0;
+    margin-top: 8px;
+    display: block;
+  }
+}
+
+/* ===========================================
+   RESPONSIVE - PETIT MOBILE
+   =========================================== */
+@media (max-width: 480px) {
+  .emprunts-container {
+    padding: 20px 10px;
+  }
+
+  .emprunts-title {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+  }
+
+  .emprunts-table tbody tr {
+    padding: 16px;
+    border-radius: 10px;
+  }
+
+  .emprunts-table td {
+    font-size: 0.9rem;
+    padding: 10px 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .emprunts-table td::before {
+    font-size: 0.75rem;
+  }
+
+  .btn-retourner {
+    padding: 12px 16px;
+    font-size: 0.85rem;
+  }
+
+  .empty-state {
+    padding: 40px 15px;
+  }
+
+  .empty-state p {
+    font-size: 1rem;
+  }
+}

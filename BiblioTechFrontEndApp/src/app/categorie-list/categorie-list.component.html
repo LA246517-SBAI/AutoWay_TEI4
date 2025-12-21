@@ -1,0 +1,55 @@
+<div class="page-layout">
+  <div class="page-header">
+    <app-navbar></app-navbar>
+  </div>
+
+  <div class="page-content">
+    <div class="page-container">
+      <h1>Catégories</h1>
+
+      <div class="card">
+        <div class="card-header">
+          <h3 style="margin: 0;">Liste des Catégories</h3>
+          <button class="btn btn-primary btn-sm" routerLink="/categories/new" *ngIf="isAdmin">
+            <mat-icon>add</mat-icon> Ajouter
+          </button>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Livres</th>
+                <th *ngIf="isAdmin">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Message si aucune catégorie -->
+              <tr *ngIf="categories.length === 0">
+                <td [attr.colspan]="isAdmin ? 4 : 3" style="text-align: center; padding: 20px;">
+                  Aucune catégorie disponible
+                </td>
+              </tr>
+              
+              <tr *ngFor="let c of categories">
+                <td>{{ c.nom }}</td>
+                <td>{{ c.description }}</td>
+                <td>{{ c.livres?.length || 0 }}</td>
+                <td *ngIf="isAdmin" class="actions-cell">
+                  <button class="btn btn-sm" [routerLink]="['/categories/edit', c.id]" title="Modifier">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button class="btn btn-sm" (click)="deleteCategorie(c)" title="Supprimer">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
